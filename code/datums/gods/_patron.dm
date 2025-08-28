@@ -4,7 +4,6 @@
 GLOBAL_LIST_EMPTY(patronlist)
 GLOBAL_LIST_EMPTY(patrons_by_faith) // Does not include patrons with preference_accessible as FALSE
 GLOBAL_LIST_EMPTY(preference_patrons) // Does not include patrons with preference_accessible as FALSE
-GLOBAL_LIST_EMPTY(prayers)
 
 /datum/patron
 	/// Name of the god
@@ -29,9 +28,14 @@ GLOBAL_LIST_EMPTY(prayers)
 	var/preference_accessible = TRUE
 	/// All gods have related confessions
 	var/list/confess_lines
-
-	/// Devotion datum type associated with this god
-	var/datum/devotion/devotion_holder = null
+	/// Tier 0 spell
+	var/t0
+	/// Tier 1 spell
+	var/t1
+	/// Tier 2 spell
+	var/t2
+	/// Final tier spell
+	var/t3
 
 	/// List of words that this god considers profane.
 	var/list/profane_words = list("zizo","cock","dick","fuck","shit","pussy","cuck","cunt","asshole")
@@ -81,7 +85,6 @@ GLOBAL_LIST_EMPTY(prayers)
 		return FALSE
 
 	. = TRUE //the prayer has succeeded by this point forward
-	GLOB.prayers |= prayer
 	record_round_statistic(STATS_PRAYERS_MADE)
 
 	if(findtext(prayer, name))

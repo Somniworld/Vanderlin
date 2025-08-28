@@ -6,6 +6,7 @@
 	something you exploit with potent conviction. Let no man ever forget whose ear you whisper into. \
 	You have killed more men with those lips than any blademaster could ever claim to.\
 	You can add and remove agents with your Frumentarii scroll"
+	flag = HAND
 	department_flag = NOBLEMEN
 	display_order = JDO_HAND
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
@@ -65,9 +66,8 @@
 	backr = /obj/item/storage/backpack/satchel/black
 	backpack_contents = list(/obj/item/weapon/knife/dagger/steel = 1, /obj/item/storage/keyring/hand = 1, /obj/item/paper/scroll/frumentarii/roundstart = 1)
 	armor = /obj/item/clothing/armor/leather/jacket/handjacket
-	pants = /obj/item/clothing/pants/tights/colored/black
+	pants = /obj/item/clothing/pants/tights/black
 	beltr = /obj/item/weapon/sword/rapier/dec
-	scabbards = list(/obj/item/weapon/scabbard/sword/royal)
 	H.adjust_skillrank(/datum/skill/combat/axesmaces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
@@ -106,10 +106,10 @@
 		mask = /obj/item/clothing/face/shepherd/shadowmask
 		pants = /obj/item/clothing/pants/trou/shadowpants
 	else
-		cloak = /obj/item/clothing/cloak/raincloak/colored/mortus //cool spymaster cloak
-		shirt = /obj/item/clothing/shirt/undershirt/colored/guard
+		cloak = /obj/item/clothing/cloak/raincloak/mortus //cool spymaster cloak
+		shirt = /obj/item/clothing/shirt/undershirt/guard
 		armor = /obj/item/clothing/armor/leather/jacket/hand
-		pants = /obj/item/clothing/pants/tights/colored/black
+		pants = /obj/item/clothing/pants/tights/black
 	H.adjust_skillrank(/datum/skill/combat/axesmaces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
@@ -151,7 +151,7 @@
 	backr = /obj/item/storage/backpack/satchel/black
 	backpack_contents = list(/obj/item/weapon/knife/dagger/steel = 1, /obj/item/storage/keyring/hand = 1, /obj/item/reagent_containers/glass/bottle/poison = 1, /obj/item/paper/scroll/frumentarii/roundstart = 1) //starts with a vial of poison, like all wizened evil advisors do!
 	armor = /obj/item/clothing/armor/leather/jacket/hand
-	pants = /obj/item/clothing/pants/tights/colored/black
+	pants = /obj/item/clothing/pants/tights/black
 	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)

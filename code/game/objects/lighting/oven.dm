@@ -9,7 +9,6 @@
 	on = FALSE
 	temperature_change = 45
 	var/lastsmoke = 0
-	soundloop = /datum/looping_sound/fireloop
 
 /obj/machinery/light/fueled/oven/Initialize()
 	. = ..()
@@ -28,43 +27,46 @@
 
 /obj/machinery/light/fueled/oven/OnCrafted(dirin, mob/user)
 	dir = turn(dirin, 180)
-	pixel_x = base_pixel_x
-	pixel_y = base_pixel_y
-	switch(dir)
-		if(SOUTH)
-			pixel_y += 32
-		if(NORTH)
-			pixel_y -= 32
-		if(WEST)
-			pixel_x += 32
-		if(EAST)
-			pixel_x -= 32
-	return ..()
+	. = ..()
+	update_appearance(UPDATE_ICON_STATE | UPDATE_OVERLAYS)
 
 /obj/machinery/light/fueled/oven/Crossed(atom/movable/AM, oldLoc)
 	return
 
 /obj/machinery/light/fueled/oven/south
 	dir = SOUTH
-	SET_BASE_PIXEL(0, 32)
+	pixel_y = 32 //so we see it in mapper
 
 /obj/machinery/light/fueled/oven/west
 	dir = WEST
-	SET_BASE_PIXEL(32, 0)
+	pixel_x = 32
 
 /obj/machinery/light/fueled/oven/east
 	dir = EAST
-	SET_BASE_PIXEL(-32, 0)
+	pixel_x = -32
 
 /obj/machinery/light/fueled/oven/Initialize()
 	. = ..()
 	update_appearance(UPDATE_ICON_STATE | UPDATE_OVERLAYS)
 
+/obj/machinery/light/fueled/oven/update_icon_state()
+	. = ..()
+	switch(dir)
+		if(SOUTH)
+			pixel_y = 32
+		if(NORTH)
+			pixel_y = -32
+		if(WEST)
+			pixel_x = 32
+		if(EAST)
+			pixel_x = -32
+	icon_state = "[base_state][on]"
+
 /obj/machinery/light/fueled/oven/update_overlays()
 	. = ..()
 	for(var/obj/item/I as anything in contents)
-		I.pixel_x = I.base_pixel_x
-		I.pixel_y = I.base_pixel_y
+		I.pixel_x = 0
+		I.pixel_y = 0
 		var/mutable_appearance/M = mutable_appearance(I.icon, I.icon_state)
 		M.color = I.color
 		M.transform *= 0.5

@@ -47,7 +47,6 @@
 	base_constitution = 4
 	base_strength = 4
 	remains_type = /obj/effect/decal/remains/cow
-	happy_funtime_mob = TRUE
 
 
 
@@ -211,7 +210,9 @@
 	base_strength = 12
 	base_speed = 2
 	remains_type = /obj/effect/decal/remains/cow
-	happy_funtime_mob = TRUE
+
+
+
 	ai_controller = /datum/ai_controller/basic_controller/cow
 
 /mob/living/simple_animal/hostile/retaliate/bull/Initialize()

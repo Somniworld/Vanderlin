@@ -130,15 +130,15 @@
 			C.mob.playsound_local(C.mob, 'sound/misc/roundend.ogg', 100, FALSE)
 		if(isliving(C.mob) && C.ckey)
 			key_list += C.ckey
-
+//	if(key_list.len)
+//		add_roundplayed(key_list)
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(H.stat != DEAD)
 			if(H.get_triumphs() < 0)
 				H.adjust_triumphs(1)
-
 	add_roundplayed(key_list)
-
-	update_god_rankings()
+//	SEND_SOUND(world, sound(pick('sound/misc/roundend1.ogg','sound/misc/roundend2.ogg')))
+//	SEND_SOUND(world, sound('sound/misc/roundend.ogg'))
 
 	for(var/mob/M in GLOB.mob_list)
 		M.do_game_over()
@@ -156,13 +156,9 @@
 
 	gamemode_report()
 
-	sleep(8 SECONDS)
+	to_chat(world, personal_objectives_report())
 
-	var/datum/triumph_buy/communal/psydon_retirement_fund/fund = locate() in SStriumphs.triumph_buy_datums
-	if(fund && SStriumphs.communal_pools[fund.type] > 0)
-		fund.on_activate()
-
-	sleep(6 SECONDS)
+	sleep(10 SECONDS)
 
 	players_report()
 
@@ -285,7 +281,8 @@
 		if(last.show_in_roundend)
 			last.roundend_report_footer()
 
-	to_chat(world, personal_objectives_report())
+
+	return
 
 /datum/controller/subsystem/ticker/proc/standard_reboot()
 	if(ready_for_reboot)

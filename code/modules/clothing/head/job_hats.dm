@@ -37,7 +37,7 @@
 	name = "nun's habit"
 	desc = "Habits worn by nuns of the pantheon's faith."
 	icon_state = "nun"
-	allowed_race = RACES_PLAYER_ALL
+	allowed_race = list(SPEC_ID_HUMEN, SPEC_ID_TIEFLING, SPEC_ID_ELF, SPEC_ID_AASIMAR, SPEC_ID_DWARF)
 
 /obj/item/clothing/head/fancyhat
 	name = "fancy hat"
@@ -101,9 +101,6 @@
 /obj/item/clothing/head/wizhat/gen
 	icon_state = "wizardhatgen"
 
-/obj/item/clothing/head/leather
-	abstract_type = /obj/item/clothing/head/leather
-
 /obj/item/clothing/head/leather/inqhat
 	name = "inquisitorial hat"
 	desc = "A wide-brimmed leather hat, adorned with a crimson-dyed feather. Death has come to your little town."
@@ -115,13 +112,3 @@
 	name = "court physician's hat"
 	desc = "A head covering for the distinguished physician."
 	icon_state = "physicianhat"
-	item_state = "physicianhat"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/courtphys.dmi'
-
-/obj/item/clothing/head/courtphysician
-	name = "court physician's beret"
-	desc = "A head covering for elegance, and to hide the bald spot."
-	icon_state = "courthat"
-	item_state = "courthat"
-	icon = 'icons/roguetown/clothing/courtphys.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/courtphys.dmi'

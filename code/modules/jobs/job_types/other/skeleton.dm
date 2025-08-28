@@ -7,6 +7,7 @@
 /datum/job/skeleton
 	title = "Skeleton"
 	tutorial = null
+	flag = SKELETON
 	department_flag = UNDEAD
 	job_flags = (JOB_EQUIP_RANK)
 	faction = FACTION_TOWN //this seems wrong?
@@ -70,7 +71,6 @@
 	H.base_speed = rand(7,10)
 	H.base_intelligence = 1
 	H.base_constitution = 3
-	H.recalculate_stats(FALSE)
 
 /* RAIDER SKELETONS */
 /datum/job/skeleton/raider
@@ -176,7 +176,6 @@
 	H.base_speed = rand(7,10)
 	H.base_intelligence = 1
 	H.base_constitution = 3
-	H.recalculate_stats(FALSE)
 
 	H.verbs |= /mob/living/carbon/human/proc/praise
 	H.verbs |= /mob/living/carbon/human/proc/communicate

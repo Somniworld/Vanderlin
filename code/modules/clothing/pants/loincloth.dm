@@ -9,14 +9,11 @@
 	fiber_salvage = FALSE
 	salvage_amount = 1
 
-/obj/item/clothing/pants/loincloth/colored
-	misc_flags = CRAFTING_TEST_EXCLUDE
-
-/obj/item/clothing/pants/loincloth/colored/brown
+/obj/item/clothing/pants/loincloth/brown
 	color = CLOTHING_BARK_BROWN
 
-/obj/item/clothing/pants/loincloth/colored/black
+/obj/item/clothing/pants/loincloth/black
 	color = CLOTHING_SOOT_BLACK
 
-/obj/item/clothing/pants/loincloth/colored/pink
+/obj/item/clothing/pants/loincloth/pink
 	color = "#b98ae3"

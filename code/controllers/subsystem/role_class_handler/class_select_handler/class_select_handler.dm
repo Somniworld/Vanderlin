@@ -110,9 +110,10 @@
 			// Time to do some picking, make sure we got things in the list we dealin with
 			if(local_insert_sortlist.len)
 				// Make sure we aren't going to attempt to pick more than what we even have avail
-				var/job_rolls = min(class_cat_alloc_attempts[SORT_CAT_KEY], local_insert_sortlist.len)
+				if(class_cat_alloc_attempts[SORT_CAT_KEY] > local_insert_sortlist.len)
+					class_cat_alloc_attempts[SORT_CAT_KEY] = local_insert_sortlist.len
 
-				for(var/i in 1 to job_rolls)
+				for(var/i in 1 to class_cat_alloc_attempts[SORT_CAT_KEY])
 					rolled_classes[local_insert_sortlist[i]] = 0
 
 				// We are plusboosting too

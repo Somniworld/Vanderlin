@@ -37,7 +37,6 @@
 	var/turf/turf = get_step(src, EAST)
 	bin = new /obj/structure/material_bin(turf)
 	bin.parent = src
-	LAZYINITLIST(regular_recipes)
 	if(!length(regular_recipes))
 		for(var/datum/anvil_recipe/recipe_path as anything in subtypesof(/datum/anvil_recipe))
 			if(is_abstract(recipe_path))
@@ -241,7 +240,12 @@
 				material_copy -= listed_atom.type
 
 	var/atom/new_atom
-	for(var/i in 1 to current.createditem_extra + 1)
+	if(current.createmultiple)
+		for(var/i=1 to current.createditem_num)
+			new_atom = new current.created_item(get_turf(bin))
+			SEND_SIGNAL(bin, COMSIG_TRY_STORAGE_INSERT, new_atom, null, TRUE, FALSE)
+
+	else
 		new_atom = new current.created_item(get_turf(bin))
 		SEND_SIGNAL(bin, COMSIG_TRY_STORAGE_INSERT, new_atom, null, TRUE, FALSE)
 
@@ -341,13 +345,16 @@
 		icon_state = initial(icon_state)
 
 /obj/structure/material_bin/attack_hand_secondary(mob/user, params)
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	user.visible_message(span_danger("[user] starts to [opened ? "close" : "open"] [src]."), span_danger("You start to [opened ? "close" : "open"] [src]."))
 	if(!do_after(user, 2.5 SECONDS, src))
-		return
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	opened = !opened
 	update_appearance(UPDATE_ICON_STATE)
 	SEND_SIGNAL(src, COMSIG_TRY_STORAGE_HIDE_ALL)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 #undef STEP_FIDDLE
 #undef STEP_LEVER

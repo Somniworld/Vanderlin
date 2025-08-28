@@ -36,11 +36,11 @@
 	speed = 5
 	move_to_delay = 5
 	ranged = TRUE
-	SET_BASE_PIXEL(-32, 0)
+	pixel_x = -32
 	aggressive = 1
 	deathmessage = "collapses to the floor with a final roar, the impact rocking the ground."
 	footstep_type = FOOTSTEP_MOB_HEAVY
-	food_max = 0
+
 
 
 	ai_controller = /datum/ai_controller/voiddragon
@@ -202,7 +202,7 @@
 
 	playsound(loc, 'sound/vo/mobs/vdragon/drgnroar.ogg', 50, TRUE, -1)
 	controller.blackboard[BB_DRAGON_SWOOPING] |= SWOOP_DAMAGEABLE
-	ADD_TRAIT(src, TRAIT_MOVE_FLYING, AI_ATTACK_TRAIT)
+	movement_type = FLYING
 	density = FALSE
 	icon_state = "shadow"
 	visible_message("<span class='boldwarning'>[src] swoops up high!</span>")
@@ -272,7 +272,7 @@
 				visible_message(span_warning("[L] is thrown clear of [src]!</span>"))
 	for(var/mob/M in range(7, src))
 		shake_camera(M, 15, 1)
-	REMOVE_TRAIT(src, TRAIT_MOVE_FLYING, AI_ATTACK_TRAIT)
+	movement_type = GROUND
 	density = TRUE
 	SLEEP_CHECK_DEATH(1)
 	controller.blackboard[BB_DRAGON_SWOOPING] &= ~SWOOP_DAMAGEABLE
@@ -631,7 +631,8 @@
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "void_blink_in"
 	layer = BELOW_MOB_LAYER
-	SET_BASE_PIXEL(-32, -32)
+	pixel_x = -32
+	pixel_y = -32
 	color = "#FF0000"
 	duration = 10
 
@@ -639,7 +640,8 @@
 	icon = 'icons/mob/96x96/ratwood_dragon.dmi'
 	icon_state = "dragon"
 	layer = ABOVE_ALL_MOB_LAYER
-	SET_BASE_PIXEL(-32, 10)
+	pixel_x = -32
+	duration = 10
 	randomdir = FALSE
 
 /obj/effect/temp_visual/dragon_flight/Initialize(mapload, negative)

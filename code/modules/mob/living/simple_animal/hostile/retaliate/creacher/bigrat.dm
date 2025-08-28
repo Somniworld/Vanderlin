@@ -5,7 +5,8 @@
 	icon_state = "rat"
 	icon_living = "rat"
 	icon_dead = "rat1"
-	SET_BASE_PIXEL(-16, -8)
+	pixel_x = -16
+	pixel_y = -8
 
 	faction = list(FACTION_RATS)
 	emote_hear = list("squeaks.")
@@ -19,8 +20,8 @@
 						/obj/item/natural/fur/rous = 1,/obj/item/alch/bone = 2)
 	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/steak = 1,
 						/obj/item/alch/sinew = 1,
-						/obj/item/natural/fur/rous = 1, /obj/item/alch/bone = 4)
-	head_butcher = /obj/item/natural/head/rous
+						/obj/item/natural/fur/rous = 1, /obj/item/alch/bone = 4,
+						/obj/item/natural/head/rous = 1)
 
 	health = ROUS_HEALTH
 	maxHealth = ROUS_HEALTH
@@ -79,7 +80,8 @@
 	gender = PLURAL
 	icon_state = "ratbones"
 	icon = 'icons/roguetown/mob/monster/bigrat.dmi'
-	SET_BASE_PIXEL(-16, -8)
+	pixel_x = -16
+	pixel_y = -8
 
 /mob/living/simple_animal/hostile/retaliate/bigrat/Initialize()
 	AddComponent(/datum/component/obeys_commands, pet_commands) // here due to signal overridings from pet commands

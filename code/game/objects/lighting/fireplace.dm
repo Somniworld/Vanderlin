@@ -9,5 +9,5 @@
 	base_state = "fireplace"
 	icon = 'icons/roguetown/misc/fireplace64.dmi'
 	fueluse = -1
-	SET_BASE_PIXEL(-16, 0)
+	pixel_x = -16
 	climb_offset = 4

@@ -89,8 +89,6 @@
 	var/list/ambush_times
 
 	var/converted_type
-	var/delver_restrictions = FALSE
-	var/coven_protected = FALSE
 
 /**
  * A list of teleport locations

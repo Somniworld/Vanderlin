@@ -1,6 +1,5 @@
 /datum/objective/improve_combat
 	name = "Improve Combat Skills"
-	triumph_count = 2
 	var/levels_gained = 0
 	var/required_levels = 2
 
@@ -35,7 +34,7 @@
 		to_chat(owner.current, span_greentext("You've improved your combat skills enough to satisfy Ravox!"))
 		owner.current.adjust_triumphs(triumph_count)
 		completed = TRUE
-		adjust_storyteller_influence(RAVOX, 15)
+		adjust_storyteller_influence("Ravox", 15)
 		escalate_objective()
 		UnregisterSignal(owner.current, COMSIG_SKILL_RANK_INCREASED)
 	else

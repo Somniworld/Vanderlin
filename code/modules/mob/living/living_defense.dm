@@ -185,7 +185,7 @@
 		combat_modifier = 2
 
 	if(HAS_TRAIT(src, TRAIT_RESTRAINED))
-		combat_modifier += 0.4
+		combat_modifier += 0.25
 
 	if(body_position == LYING_DOWN && user.body_position != LYING_DOWN)
 		combat_modifier += 0.05
@@ -201,7 +201,7 @@
 		if(G.chokehold)
 			combat_modifier += 0.15
 
-	var/probby = clamp((((8 + (((user.STASTR - STASTR)/4) + skill_diff)) * 5 + rand(-5, 5)) * combat_modifier), 5, 95)
+	var/probby = clamp((((4 + (((user.STASTR - STASTR)/2) + skill_diff)) * 10 + rand(-5, 5)) * combat_modifier), 5, 95)
 
 	if(!prob(probby) && !instant && !stat && cmode)
 		var/self_message
@@ -213,7 +213,7 @@
 		playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
 		user.Immobilize(1 SECONDS)
 		user.changeNext_move(1 SECONDS)
-		user.adjust_stamina(rand(2,6))
+		user.adjust_stamina(rand(4,10))
 		src.Immobilize(0.5 SECONDS)
 		src.changeNext_move(0.5 SECONDS)
 		return
@@ -293,7 +293,7 @@
 		return FALSE
 	if(!M.Adjacent(src))
 		return FALSE
-	if(M.incapacitated(IGNORE_GRAB))
+	if(M.incapacitated(ignore_grab = TRUE))
 		return FALSE
 
 	if(checkmiss(M))
@@ -412,4 +412,5 @@
 /mob/living/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect, item_animation_override = null, datum/intent/used_intent, atom_bounce)
 	if(!used_item)
 		used_item = get_active_held_item()
-	return ..()
+	..()
+	setMovetype(movement_type & ~FLOATING) // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.

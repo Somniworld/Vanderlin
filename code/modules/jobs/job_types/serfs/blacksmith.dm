@@ -3,6 +3,7 @@
 	tutorial = "You studied for many decades under your master with a few other apprentices to become an Armorer, \
 	a trade that certainly has seen a boom in revenue in recent times with many a bannerlord\
 	seeing the importance in maintaining a well-equipped army."
+	flag = BLACKSMITH
 	department_flag = SERFS
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	faction = FACTION_TOWN
@@ -58,16 +59,16 @@
 		H.change_stat(STATKEY_SPD, -1)
 	else
 		pants = /obj/item/clothing/pants/trou
-		armor = /obj/item/clothing/shirt/dress/gen/colored/random
+		armor = /obj/item/clothing/shirt/dress/gen/random
 		shoes = /obj/item/clothing/shoes/shortboots
 		belt = /obj/item/storage/belt/leather
 		cloak = /obj/item/clothing/cloak/apron/brown
 		beltl = /obj/item/storage/belt/pouch/coins/poor
 		beltr = /obj/item/key/blacksmith
+		backl =	/obj/item/weapon/hammer/sledgehammer
 		H.change_stat(STATKEY_STR, 1)
 		H.change_stat(STATKEY_END, 2)
 		H.change_stat(STATKEY_SPD, -1)
-	backl =	/obj/item/weapon/hammer/sledgehammer
 	backpack_contents = list(/obj/item/recipe_book/blacksmithing = 1)
 
 /datum/job/weaponsmith
@@ -75,6 +76,7 @@
 	tutorial = "You studied for many decades under your master with a few other apprentices to become a Weaponsmith, \
 	a trade that is as ancient as the secrets of steel itself! \
 	You've repaired the blades of cooks, the cracked hoes of peasants and greased the spears of many soldiers into war."
+	flag = BLACKSMITH
 	department_flag = SERFS
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	faction = FACTION_TOWN
@@ -124,12 +126,13 @@
 		beltl = /obj/item/storage/belt/pouch/coins/poor
 		beltr = /obj/item/key/blacksmith
 		cloak = /obj/item/clothing/cloak/apron/brown
+		backl =	/obj/item/weapon/hammer/sledgehammer
 		H.change_stat(STATKEY_STR, 1)
 		H.change_stat(STATKEY_END, 2)
 		H.change_stat(STATKEY_SPD, -1)
 	else
 		pants = /obj/item/clothing/pants/trou
-		armor = /obj/item/clothing/shirt/dress/gen/colored/random
+		armor = /obj/item/clothing/shirt/dress/gen/random
 		shoes = /obj/item/clothing/shoes/shortboots
 		belt = /obj/item/storage/belt/leather
 		cloak = /obj/item/clothing/cloak/apron/brown
@@ -138,5 +141,4 @@
 		H.change_stat(STATKEY_STR, 1)
 		H.change_stat(STATKEY_END, 2)
 		H.change_stat(STATKEY_SPD, -1)
-	backl =	/obj/item/weapon/hammer/sledgehammer
 	backpack_contents = list(/obj/item/recipe_book/blacksmithing = 1)

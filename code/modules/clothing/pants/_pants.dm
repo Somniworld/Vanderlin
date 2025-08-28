@@ -44,10 +44,9 @@
 	var/mutable_appearance/accessory_overlay
 	var/mutantrace_variation = NO_MUTANTRACE_VARIATION //Are there special sprites for specific situations? Don't use this unless you need to.
 	var/freshly_laundered = FALSE
-	abstract_type = /obj/item/clothing/pants
 
-/obj/item/clothing/pants/worn_overlays(mutable_appearance/standing, isinhands = FALSE, icon_file, dummy_block = FALSE)
-	. = ..()
+/obj/item/clothing/pants/worn_overlays(isinhands = FALSE)
+	. = list()
 	if(!isinhands)
 		if(accessory_overlay)
 			. += accessory_overlay
@@ -179,3 +178,6 @@
 	. = ..()
 	if(freshly_laundered)
 		. += "It looks fresh and clean."
+
+/obj/item/clothing/pants/rank
+	dying_key = DYE_REGISTRY_UNDER

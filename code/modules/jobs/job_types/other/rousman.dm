@@ -1,6 +1,7 @@
 /datum/job/rousman
 	title = "Rousman"
 	tutorial = ""
+	flag = GRAVETENDER
 //	department_flag = PEASANTS
 	faction = FACTION_TOWN
 	total_positions = 0

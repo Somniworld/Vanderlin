@@ -5,27 +5,26 @@
 	allowed_races = RACES_PLAYER_ZYBANTINE
 	outfit = /datum/outfit/job/zalad_migration/emir
 	grant_lit_torch = TRUE
-	is_recognized = TRUE
 
 /datum/outfit/job/zalad_migration/emir/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/shalal
 	gloves = /obj/item/clothing/gloves/leather
 	head = /obj/item/clothing/head/crown/circlet
-	cloak = /obj/item/clothing/cloak/raincloak/colored/purple
+	cloak = /obj/item/clothing/cloak/raincloak/purple
 	armor = /obj/item/clothing/armor/gambeson/arming
 	belt = /obj/item/storage/belt/leather/shalal
 	beltl = /obj/item/weapon/sword/sabre/shalal
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backr = /obj/item/storage/backpack/satchel
 	ring = /obj/item/clothing/ring/gold/guild_mercator
-	shirt = /obj/item/clothing/shirt/tunic/colored/purple
+	shirt = /obj/item/clothing/shirt/tunic/purple
 	pants = /obj/item/clothing/pants/trou/leather
 	neck = /obj/item/clothing/neck/shalal/emir
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/veryrich)
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/armor/leather/jacket/silk_coat
-		shirt = /obj/item/clothing/shirt/dress/silkdress/colored/black
+		shirt = /obj/item/clothing/shirt/dress/silkdress/black
 	if(H.mind)
 		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
@@ -64,21 +63,20 @@
 	allowed_races = RACES_PLAYER_ZYBANTINE
 	outfit = /datum/outfit/job/zalad_migration/amirah
 	grant_lit_torch = TRUE
-	is_recognized = TRUE
 
 /datum/outfit/job/zalad_migration/amirah/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/shalal
 	gloves = /obj/item/clothing/gloves/leather
 	head = /obj/item/clothing/head/crown/nyle
-	cloak = /obj/item/clothing/cloak/raincloak/colored/purple
+	cloak = /obj/item/clothing/cloak/raincloak/purple
 	armor = /obj/item/clothing/armor/leather/jacket/silk_coat
 	belt = /obj/item/storage/belt/leather/shalal
 	beltl = /obj/item/weapon/sword/sabre/shalal
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backr = /obj/item/storage/backpack/satchel
 	ring = /obj/item/clothing/ring/gold/guild_mercator
-	shirt = /obj/item/clothing/shirt/dress/silkdress/colored/black
+	shirt = /obj/item/clothing/shirt/dress/silkdress/black
 	pants = /obj/item/clothing/pants/trou/leather
 	neck = /obj/item/clothing/neck/shalal/emir
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/veryrich = 1, /obj/item/reagent_containers/glass/bottle/wine = 1)
@@ -118,7 +116,6 @@
 	allowed_races = RACES_PLAYER_ZYBANTINE
 	outfit = /datum/outfit/job/zalad_migration/furusiyya
 	grant_lit_torch = TRUE
-	is_recognized = TRUE
 
 /datum/outfit/job/zalad_migration/furusiyya/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -153,12 +150,12 @@
 			backr = /obj/item/weapon/polearm/spear/billhook
 
 
-	pants = /obj/item/clothing/pants/tights/colored/black
+	pants = /obj/item/clothing/pants/tights/black
 	beltl = /obj/item/storage/belt/pouch/coins/mid
 	shoes = /obj/item/clothing/shoes/boots/rare/zybanplate
 	gloves = /obj/item/clothing/gloves/rare/zybanplate
 	belt = /obj/item/storage/belt/leather/shalal
-	shirt = /obj/item/clothing/shirt/undershirt/colored/random
+	shirt = /obj/item/clothing/shirt/undershirt/random
 	armor = /obj/item/clothing/armor/rare/zybanplate
 	backl = /obj/item/storage/backpack/satchel
 	head = /obj/item/clothing/head/rare/zybanplate
@@ -191,9 +188,9 @@
 	armor = /obj/item/clothing/armor/brigandine/coatplates
 	beltr = /obj/item/weapon/sword/long/rider
 	beltl= /obj/item/flashlight/flare/torch/lantern
-	shirt = /obj/item/clothing/shirt/undershirt/colored/black
-	pants = /obj/item/clothing/pants/tights/colored/red
-	neck = /obj/item/clothing/neck/keffiyeh/colored/red
+	shirt = /obj/item/clothing/shirt/undershirt/black
+	pants = /obj/item/clothing/pants/tights/red
+	neck = /obj/item/clothing/neck/keffiyeh/red
 	backl = /obj/item/storage/backpack/satchel
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor)
 	if(!H.has_language(/datum/language/zalad))
@@ -260,10 +257,10 @@
 	shoes = /obj/item/clothing/shoes/shalal
 	gloves = /obj/item/clothing/gloves/angle
 	belt = /obj/item/storage/belt/leather/shalal
-	shirt = /obj/item/clothing/shirt/undershirt/colored/red
+	shirt = /obj/item/clothing/shirt/undershirt/red
 	armor = /obj/item/clothing/armor/leather/splint
 	backl = /obj/item/storage/backpack/satchel
-	head = /obj/item/clothing/neck/keffiyeh/colored/red
+	head = /obj/item/clothing/neck/keffiyeh/red
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor, /obj/item/lockpick)
 	if(!H.has_language(/datum/language/zalad))
 		H.grant_language(/datum/language/zalad)

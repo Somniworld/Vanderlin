@@ -54,13 +54,15 @@
 	icon_state = "headeater"
 	density = FALSE
 	blade_dulling = DULLING_BASH
-	SET_BASE_PIXEL(0, 32)
+	pixel_y = 32
 
 /obj/structure/fake_machine/headeater/r
-	SET_BASE_PIXEL(32, 0)
+	pixel_y = 0
+	pixel_x = 32
 
 /obj/structure/fake_machine/headeater/l
-	SET_BASE_PIXEL(-32, 0)
+	pixel_y = 0
+	pixel_x = -32
 
 /obj/structure/fake_machine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()

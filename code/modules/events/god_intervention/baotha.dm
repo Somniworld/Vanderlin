@@ -5,7 +5,7 @@
 	weight = 8
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
-	min_players = 15
+	min_players = 10
 	allowed_storytellers = list(/datum/storyteller/baotha)
 
 /datum/round_event/baotha_revelry/start()

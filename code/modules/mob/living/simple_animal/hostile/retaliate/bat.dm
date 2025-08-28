@@ -28,7 +28,7 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	ventcrawler = VENTCRAWLER_ALWAYS
 	mob_size = MOB_SIZE_TINY
-	is_flying_animal = TRUE
+	movement_type = FLYING
 	speak_emote = list("squeaks")
 
 //this is literally a shapeshift and ai can't actually use it

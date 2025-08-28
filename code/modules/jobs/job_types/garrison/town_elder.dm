@@ -5,6 +5,7 @@
 	Now, the days of adventure are long past. You sit as the town's beloved elder; while the crown may rule from afar, the people\
 	look to you to settle disputes, mend rifts, and keep the true peace in town. Not every conflict must end in bloodshed,\
 	but when it must, you will do what is necessary, as you always have."
+	flag = TOWN_ELDER
 	department_flag = GARRISON
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	display_order = JDO_CHIEF
@@ -15,7 +16,7 @@
 	bypass_lastclass = TRUE
 	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/militia)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
-	allowed_races = RACES_PLAYER_NONHERETICAL
+	allowed_races = RACES_PLAYER_NONDISCRIMINATED
 
 	advclass_cat_rolls = list(CTAG_TOWN_ELDER = 20)
 	give_bank_account = 50
@@ -78,13 +79,13 @@
 
 /datum/advclass/town_elder/mayor
 	name = "Mayor"
-	allowed_races=(RACES_PLAYER_NONDISCRIMINATED) // Due to the inherent nobility coming from being a mayor, non-humen species are barred.
+
 	tutorial = "Before politics, you were a bard, your voice stirred hearts, your tales traveled farther than your feet ever could. You carved your name in history not with steel, but with stories that moved kings and commoners alike. In time, your charisma became counsel, your songs gave way to speeches. Decades later, your skill in diplomacy and trade earned you nobility, and with it, the title of Mayor. Now, you lead not from a stage, but from the heart of the people you once sang for."
 	outfit = /datum/outfit/job/town_elder/mayor
 
 	category_tags = list(CTAG_TOWN_ELDER)
 
-// Mayor start with slight changes, they were turned noble and got more money, also highly skilled in merchant skills.
+// Mayor start with slightly changes, they were turned noble and got more money, also highly skilled in merchant skills.
 
 
 
@@ -99,7 +100,7 @@
 	gloves = /obj/item/clothing/gloves/leather/black
 	ring = /obj/item/clothing/ring/gold/toper
 	backl = /obj/item/storage/backpack/satchel
-	cloak = /obj/item/clothing/cloak/raincloak/furcloak/colored/black
+	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
 	neck = /obj/item/storage/belt/pouch/coins/veryrich
 	belt = /obj/item/storage/belt/leather/plaquesilver
 	beltr = /obj/item/storage/keyring/elder
@@ -116,7 +117,7 @@
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/music, 5, TRUE)
 
-	H.add_spell(/datum/action/cooldown/spell/vicious_mockery)
+	H.add_spell(/datum/action/cooldown/spell/undirected/list_target/vicious_mockery)
 
 	H.change_stat(STATKEY_STR, -1)
 	H.change_stat(STATKEY_PER, 2)
@@ -132,6 +133,7 @@
 		H.change_stat(STATKEY_STR, -1)
 		H.change_stat(STATKEY_PER, 1)
 		H.change_stat(STATKEY_INT, 1)
+
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
@@ -153,9 +155,9 @@
 /datum/outfit/job/town_elder/master_of_crafts_and_labor/pre_equip(mob/living/carbon/human/H)
 
 	head = /obj/item/clothing/head/hatblu
-	armor = /obj/item/clothing/armor/leather/vest/colored/random
+	armor = /obj/item/clothing/armor/leather/vest/random
 	pants = /obj/item/clothing/pants/trou
-	shirt = /obj/item/clothing/shirt/undershirt/colored/random
+	shirt = /obj/item/clothing/shirt/undershirt/random
 	shoes = /obj/item/clothing/shoes/boots/leather
 	belt = /obj/item/storage/belt/leather
 	beltr = /obj/item/weapon/pick/paxe
@@ -243,7 +245,7 @@
 
 /datum/outfit/job/town_elder/hearth_acolyte/pre_equip(mob/living/carbon/human/H)
 	. = ..()
-	head = /obj/item/clothing/head/roguehood/colored/random
+	head = /obj/item/clothing/head/roguehood/random
 	armor = /obj/item/clothing/shirt/robe
 	shoes = /obj/item/clothing/shoes/sandals
 	belt = /obj/item/storage/belt/leather/rope
@@ -352,11 +354,12 @@
 			H.grant_language(/datum/language/celestial)
 			to_chat(H, "<span class='info'>I can speak Celestial with ,c before my speech.</span>")
 
-	var/holder = H.patron?.devotion_holder
-	if(holder)
-		var/datum/devotion/devotion = new holder()
-		devotion.make_acolyte()
-		devotion.grant_to(H)
+
+	var/datum/devotion/cleric_holder/C = new /datum/devotion/cleric_holder(H, H.patron)
+	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+	C.grant_spells(H)
+
+
 
 /datum/advclass/town_elder/lorekeeper
 	name = "Lorekeeper"
@@ -378,7 +381,6 @@
 	cloak = /obj/item/clothing/cloak/half
 	backl = /obj/item/storage/backpack/satchel
 	beltr = /obj/item/weapon/sword/arming
-	scabbards = list(/obj/item/weapon/scabbard/sword)
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/mid = 1, /obj/item/storage/keyring/elder = 1, /obj/item/paper/scroll = 5, /obj/item/natural/feather = 1)
 
@@ -409,7 +411,7 @@
 
 	ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_BARDIC_TRAINING, TRAIT_GENERIC)
-	H.add_spell(/datum/action/cooldown/spell/vicious_mockery)
+	H.add_spell(/datum/action/cooldown/spell/undirected/list_target/vicious_mockery)
 
 
 /datum/advclass/town_elder/dreamwatcher
@@ -423,8 +425,8 @@
 
 
 /datum/outfit/job/town_elder/dreamwatcher/pre_equip(mob/living/carbon/human/H)
-	head = /obj/item/clothing/head/armingcap
-	armor = /obj/item/clothing/shirt/robe/colored/black
+	head = /obj/item/clothing/head/softcap
+	armor = /obj/item/clothing/shirt/robe/black
 	shoes = /obj/item/clothing/shoes/sandals
 	belt = /obj/item/storage/belt/leather/rope
 	beltr = /obj/item/storage/keyring/elder
@@ -435,7 +437,7 @@
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor = 1, /obj/item/needle = 1 )
 
 	if(H.patron != /datum/patron/divine/noc)
-		H.set_patron(/datum/patron/divine/noc, TRUE)
+		H.set_patron(/datum/patron/divine/noc)
 
 	H.apply_status_effect(/datum/status_effect/buff/nocblessed)
 	// 3 INT and 2 PER buff, stats will be lowered because of that

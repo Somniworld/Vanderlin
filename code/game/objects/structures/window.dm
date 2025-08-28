@@ -12,7 +12,6 @@
 	max_integrity = 100
 	integrity_failure = 0.1
 	blade_dulling = DULLING_BASHCHOP
-	CanAtmosPass = ATMOS_PASS_PROC
 	climb_time = 20
 	climb_offset = 10
 	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
@@ -31,15 +30,6 @@
 /obj/structure/window/Initialize()
 	. = ..()
 	update_appearance(UPDATE_ICON_STATE)
-
-/obj/structure/window/get_explosion_resistance()
-	if(!climbable)
-		return max_integrity
-	else
-		return 0
-
-/obj/structure/window/CanAtmosPass(turf/T)
-	return climbable
 
 /obj/structure/window/update_icon_state()
 	. = ..()
@@ -206,7 +196,6 @@
 	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
 	climbable = TRUE
 	update_appearance(UPDATE_ICON_STATE)
-	air_update_turf(TRUE)
 
 /obj/structure/window/proc/close_up(mob/user)
 	if(user)
@@ -214,7 +203,6 @@
 	playsound(src, 'sound/foley/doors/windowdown.ogg', 100, FALSE)
 	climbable = FALSE
 	update_appearance(UPDATE_ICON_STATE)
-	air_update_turf(TRUE)
 
 /obj/structure/window/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()

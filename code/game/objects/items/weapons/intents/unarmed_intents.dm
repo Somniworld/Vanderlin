@@ -10,7 +10,7 @@
 	animname = "punch"
 	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
 	misscost = 5
-	releasedrain = 1
+	releasedrain = 4
 	swingdelay = 0
 	rmb_ranged = TRUE
 	candodge = TRUE
@@ -42,7 +42,7 @@
 	noaa = TRUE
 	rmb_ranged = TRUE
 	misscost = 5
-	releasedrain = 2
+	releasedrain = 5
 	item_damage_type = "blunt"
 
 /datum/intent/unarmed/shove/rmb_ranged(atom/target, mob/user)
@@ -64,7 +64,7 @@
 	chargetime = 0
 	noaa = TRUE
 	rmb_ranged = TRUE
-	releasedrain = 3
+	releasedrain = 6
 	misscost = 6.5
 	candodge = TRUE
 	canparry = TRUE

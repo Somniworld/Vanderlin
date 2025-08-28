@@ -9,7 +9,7 @@
 		return
 	if(!user)
 		return
-	if(user.incapacitated(IGNORE_GRAB))
+	if(user.incapacitated(ignore_grab = TRUE))
 		return
 	var/mob/living/L = target
 	user.changeNext_move(CLICK_CD_FAST)

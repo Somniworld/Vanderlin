@@ -11,7 +11,6 @@
 	pickprob = 15
 	apprentice_name = "Mason Apprentice"
 	cmode_music = 'sound/music/cmode/towner/CombatTowner2.ogg'
-	is_recognized = TRUE
 
 /datum/outfit/job/adventurer/grandmastermason/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -32,9 +31,9 @@
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	head = /obj/item/clothing/head/hatblu
 	armor = /obj/item/clothing/armor/leather/vest
-	cloak = /obj/item/clothing/cloak/apron/waist/colored/bar
+	cloak = /obj/item/clothing/cloak/apron/waist/bar
 	pants = /obj/item/clothing/pants/trou
-	shirt = /obj/item/clothing/shirt/undershirt/colored/random
+	shirt = /obj/item/clothing/shirt/undershirt/random
 	shoes = /obj/item/clothing/shoes/boots/leather
 	belt = /obj/item/storage/belt/leather
 	beltr = /obj/item/storage/belt/pouch/coins/mid

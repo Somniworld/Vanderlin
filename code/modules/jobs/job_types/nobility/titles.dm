@@ -1,6 +1,7 @@
 /datum/job/bogwarden
 	title = "Warden of the Terrorbog"
 	tutorial = ""
+	flag = LORD
 	department_flag = NOBLEMEN
 	faction = "Station"
 	total_positions = 0
@@ -24,6 +25,7 @@
 	title = "Huntmaster of the Murderwoods"
 	f_title = "Huntmistress of the Murderwoods"
 	tutorial = ""
+	flag = LORD
 	department_flag = NOBLEMEN
 	faction = "Station"
 	total_positions = 0
@@ -46,6 +48,7 @@
 /datum/job/hetman
 	title = "Hetman of Mount Decapitation"
 	tutorial = ""
+	flag = LORD
 	department_flag = NOBLEMEN
 	faction = "Station"
 	total_positions = 0

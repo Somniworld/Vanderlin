@@ -37,11 +37,10 @@
 	gloves = /obj/item/clothing/gloves/angle
 	wrists = /obj/item/rope/chain //Seems fitting for slavers
 	belt = /obj/item/storage/belt/leather/mercenary/shalal
-	shirt = /obj/item/clothing/shirt/undershirt/colored/uncolored
+	shirt = /obj/item/clothing/shirt/undershirt/uncolored
 	armor = /obj/item/clothing/armor/leather/splint
 	backr = /obj/item/storage/backpack/satchel
-	head = /obj/item/clothing/neck/keffiyeh/colored/uncolored
-	scabbards = list(/obj/item/weapon/scabbard/sword)
+	head = /obj/item/clothing/neck/keffiyeh/uncolored
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor, /obj/item/weapon/knife/dagger)
 
 	H.merctype = 1 //Desert Rider chain, 0 for Desert Rider Medal

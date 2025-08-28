@@ -2,13 +2,13 @@
 	name = "waterfall"
 	icon = 'icons/effects/waterfall.dmi'
 	icon_state = "waterfall_temp"
-	SET_BASE_PIXEL(0, 32)
+	pixel_y = 32
 	var/datum/reagent/water_reagent = /datum/reagent/water
 
 /obj/effect/waterfall/Initialize()
 	. = ..()
 	var/turf/open = get_turf(src)
-	if(isopenspace(open))
+	if(istransparentturf(open))
 		return
 	color = initial(water_reagent.color)
 	var/obj/particle_emitter/effect = MakeParticleEmitter(/particles/mist/waterfall)

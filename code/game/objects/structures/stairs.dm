@@ -19,11 +19,6 @@
 	if(should_sink)
 		obj_flags &= ~IGNORE_SINK
 
-/obj/structure/stairs/abyss
-	name = "abyss stairs"
-	icon = 'icons/delver/abyss_objects.dmi'
-	icon_state = "abyss_stairs"
-
 /obj/structure/stairs/stone
 	name = "stone stairs"
 	icon = 'icons/obj/stairs.dmi'
@@ -66,9 +61,9 @@
 
 /obj/structure/stairs/d/OnCrafted(dirin, mob/user)
 	SHOULD_CALL_PARENT(FALSE)
-	dir = dirin
+	dir = turn(dirin, 180)
 	var/turf/partner = get_step_multiz(get_turf(src), DOWN)
-	partner = get_step(partner, turn(dir, 180))
+	partner = get_step(partner, dirin)
 	if(isopenturf(partner))
 		var/obj/structure/stairs/stairs = locate() in partner
 		if(!stairs)

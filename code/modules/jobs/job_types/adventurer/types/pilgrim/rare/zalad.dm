@@ -9,27 +9,26 @@
 	min_pq = 0
 
 	cmode_music = 'sound/music/cmode/adventurer/CombatOutlander.ogg'
-	is_recognized = TRUE
 
 /datum/outfit/job/adventurer/zalad/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/shalal
 	gloves = /obj/item/clothing/gloves/leather
 	head = /obj/item/clothing/head/crown/circlet
-	cloak = /obj/item/clothing/cloak/raincloak/colored/purple
+	cloak = /obj/item/clothing/cloak/raincloak/purple
 	armor = /obj/item/clothing/armor/gambeson/arming
 	belt = /obj/item/storage/belt/leather/shalal
 	beltl = /obj/item/weapon/sword/sabre/shalal
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backr = /obj/item/storage/backpack/satchel
 	ring = /obj/item/clothing/ring/gold/guild_mercator
-	shirt = /obj/item/clothing/shirt/tunic/colored/purple
+	shirt = /obj/item/clothing/shirt/tunic/purple
 	pants = /obj/item/clothing/pants/trou/leather
 	neck = /obj/item/clothing/neck/shalal/emir
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/veryrich)
 	if(H.gender == FEMALE)
 //		armor = /obj/item/clothing/armor/leather/jacket/silk_coat
-		shirt = /obj/item/clothing/shirt/dress/silkdress/colored/black
+		shirt = /obj/item/clothing/shirt/dress/silkdress/black
 	if(H.mind)
 		H.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)

@@ -42,29 +42,29 @@
 		// Offset sprite position towards target.
 		switch(aim_dir)
 			if (NORTH)
-				pixel_x = base_pixel_x
-				pixel_y = base_pixel_y + 8
+				pixel_x = 0
+				pixel_y = 8
 			if (NORTHEAST)
-				pixel_x = base_pixel_x + 8
-				pixel_y = base_pixel_y + 8
+				pixel_x = 8
+				pixel_y = 8
 			if (EAST)
-				pixel_x = base_pixel_x + 8
-				pixel_y = base_pixel_y
+				pixel_x = 8
+				pixel_y = 0
 			if (SOUTHEAST)
-				pixel_x = base_pixel_x + 8
-				pixel_y = base_pixel_y - 8
+				pixel_x = 8
+				pixel_y = -8
 			if (SOUTH)
-				pixel_x = base_pixel_x + 0
-				pixel_y = base_pixel_y - 8
+				pixel_x = 0
+				pixel_y = -8
 			if (SOUTHWEST)
-				pixel_x = base_pixel_x - 8
-				pixel_y = base_pixel_y - 8
+				pixel_x = -8
+				pixel_y = -8
 			if (WEST)
-				pixel_x = base_pixel_x - 8
-				pixel_y = base_pixel_y
+				pixel_x = -8
+				pixel_y = 0
 			if (NORTHWEST)
-				pixel_x = base_pixel_x - 8
-				pixel_y = base_pixel_y + 8
+				pixel_x = -8
+				pixel_y = 8
 		detonator = user
 
 /obj/item/breach_charge/spark_act()

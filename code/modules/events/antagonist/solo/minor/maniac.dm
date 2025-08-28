@@ -14,12 +14,14 @@
 		"Monarch",
 		"Consort",
 		"Priest",
+		"Orphan",
+		"Churchling",
+		"Innkeepers Son",
 		"Captain",
 		"Hand",
 		"Forest Warden",
 		"Royal Knight",
-		"Templar",
-		"Bandit"
+		"Templar"
 	)
 
 	base_antags = 1
@@ -27,7 +29,7 @@
 
 	earliest_start = 0 SECONDS
 
-	weight = 9
+	weight = 6
 
 	typepath = /datum/round_event/antagonist/solo/maniac
 
@@ -36,40 +38,4 @@
 		return FALSE
 	. = ..()
 
-/datum/round_event_control/antagonist/solo/maniac/midround
-	name = "Maniacs Midround"
-	roundstart = FALSE
-	weight = 12
-	max_occurrences = 2
-	base_antags = 1
-	earliest_start = 30 MINUTES
-	maximum_antags = 2
-	minor_prob = 0
-	typepath = /datum/round_event/antagonist/solo/maniac/midround
-
-/datum/round_event/antagonist/solo/maniac/midround
-
-/datum/round_event_control/antagonist/solo/maniac/midround/get_candidates()
-	. = ..()
-	var/list/possible_candidates = . //typecasting
-	var/list/weighted_list = list()
-	var/list/final_candidates = list()
-
-	for(var/mob/living/carbon/human/M in possible_candidates)
-		var/stress = M.get_stress_amount()
-		var/stressweight = 1
-		if(stress >= STRESS_INSANE)
-			stressweight = 10
-		else if(stress >= STRESS_VBAD)
-			stressweight = 5
-		else if(stress >= STRESS_BAD)
-			stressweight = 3
-		weighted_list[M] = stressweight
-
-	for(var/i in 1 to maximum_antags)
-		var/M = pickweight(weighted_list)
-		if(!length(weighted_list))
-			break
-		weighted_list -= M
-		final_candidates += M
-	return final_candidates
+/datum/round_event/antagonist/solo/maniac

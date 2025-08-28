@@ -18,13 +18,15 @@
 /datum/thaumic_research_node/basic_understanding
 	name = "Fundamental Thaumaturgy"
 	desc = "The foundational principles of essence manipulation and magical theory. Understanding the basic flow of arcane energies is essential before attempting more complex workings."
+	icon_state = "node"
 	node_x = 140
 	node_y = 340
 	// No essence cost - this is the starting node
 
 /datum/thaumic_research_node/basic_splitter
 	name = "Essence Division"
-	desc = "Learn to safely and more precisely divide and separate thaumic materials into their essence parts. This will increase the splitter's efficiency."
+	desc = "Learn to safely divide and separate magical essences into their component parts. This fundamental technique allows for more precise control over thaumic materials."
+	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/basic_understanding)
 	required_essences = list(
 		/datum/thaumaturgical_essence/fire = 5,
@@ -40,7 +42,7 @@
 
 /datum/thaumic_research_node/advanced_splitter
 	name = "Refined Separation"
-	desc = "Advanced techniques for essence splitting that achieve cleaner divisions, increasing the yield of the splitter."
+	desc = "Advanced techniques for essence splitting that preserve more of the original magical potency while achieving cleaner divisions."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/basic_splitter)
 	required_essences = list(
@@ -57,7 +59,7 @@
 
 /datum/thaumic_research_node/expert_splitter
 	name = "Master's Division"
-	desc = "Expert-level essence separation capable of isolating even the most volatile and complex essences without loss of yield."
+	desc = "Expert-level essence separation capable of isolating even the most volatile and complex magical compounds without loss of power."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/advanced_splitter)
 	required_essences = list(
@@ -74,7 +76,7 @@
 
 /datum/thaumic_research_node/master_splitter
 	name = "Grandmaster's Cleaving"
-	desc = "The pinnacle of separation arts, allowing for perfect division of any precursor while ensuring no essence is lost in the process."
+	desc = "The pinnacle of separation arts, allowing for perfect division of any essence while maintaining absolute purity and potency of each component."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/expert_splitter)
 	required_essences = list(
@@ -92,6 +94,7 @@
 /datum/thaumic_research_node/splitter_speed
 	name = "Swift Division"
 	desc = "Techniques to accelerate the essence splitting process through optimized channeling patterns and improved focus methods."
+	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/basic_splitter)
 	required_essences = list(
 		/datum/thaumaturgical_essence/motion = 10,
@@ -131,6 +134,7 @@
 /datum/thaumic_research_node/gnomes
 	name = "Life Synthesis"
 	desc = "Understand the principals behind life."
+	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/transmutation)
 	required_essences = list(/datum/thaumaturgical_essence/life = 200)
 	node_x = 480
@@ -138,7 +142,8 @@
 
 /datum/thaumic_research_node/transmutation
 	name = "Essence Transmutation"
-	desc = "The art of converting one type of magical essence into another through careful application of thaumic principles and controlled energy transfer. This will increase transmutation speed."
+	desc = "The art of converting one type of magical essence into another through careful application of thaumic principles and controlled energy transfer."
+	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/basic_understanding)
 	required_essences = list(/datum/thaumaturgical_essence/fire = 10, /datum/thaumaturgical_essence/earth = 10)
 	node_x = 140
@@ -146,7 +151,7 @@
 
 /datum/thaumic_research_node/gnome_efficency
 	name = "Improved Essence Handling"
-	desc = "Reduces the essence needed to form gnomish life."
+	desc = "Reduces the essence needed to form form life."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnomes)
 	required_essences = list(
@@ -158,7 +163,7 @@
 
 /datum/thaumic_research_node/gnome_speed
 	name = "Improved Essence Incorporation"
-	desc = "Improves the speed at which life essences coalesce to form life."
+	desc = "Improves the speed at which essences form life."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnomes)
 	required_essences = list(
@@ -170,7 +175,7 @@
 
 /datum/thaumic_research_node/gnome_speed_two
 	name = "Enhanced Essence Incorporation"
-	desc = "Further improves the speed at which life essences coalesce into gnomes."
+	desc = "Further improves the speed at which essences form life."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnome_speed)
 	required_essences = list(
@@ -183,7 +188,7 @@
 
 /datum/thaumic_research_node/gnome_speed_three
 	name = "Perfected Essence Incorporation"
-	desc = "Maximizes the speed at which life essences coalesce."
+	desc = "Maximizes the speed at which essences form life."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnome_speed_two)
 	required_essences = list(
@@ -197,7 +202,7 @@
 
 /datum/thaumic_research_node/gnome_mastery
 	name = "Gnomish Perfection"
-	desc = "The pinnacle of life, Gnomes with Hats. If Psydon would be here to witness this, he would weep tears of joy."
+	desc = "The pinnacle of life, Gnomes with Hats. It's said that Psydon is actually just a Gnome."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnome_speed_three, /datum/thaumic_research_node/gnome_efficeny_three)
 	required_essences = list(
@@ -211,7 +216,7 @@
 
 /datum/thaumic_research_node/gnome_efficeny_three
 	name = "Masterful Essence Handling"
-	desc = "Greatly reduces the amount of life essence needed to form life."
+	desc = "Greatly reduces the essence needed to form life."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnome_efficeny_two)
 	required_essences = list(
@@ -224,7 +229,7 @@
 
 /datum/thaumic_research_node/gnome_efficeny_two
 	name = "Advanced Essence Handling"
-	desc = "Further reduces the amount of life essence needed to form life."
+	desc = "Further reduces the essence needed to form life."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/gnome_efficency)
 	required_essences = list(
@@ -252,7 +257,7 @@
 
 /datum/thaumic_research_node/resevoir_decay
 	name = "Temporal Decay"
-	desc = "Techniques to speed up the flow of time, letting one decay essences into waste in mere seconds."
+	desc = "Techniques to speed up the flow of time destroying essences in the process."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/advanced_combiner_applications)
 	required_essences = list(
@@ -266,6 +271,7 @@
 /datum/thaumic_research_node/combiner_speed
 	name = "Swift Fusion"
 	desc = "Accelerate the essence combination process through improved channeling techniques and optimized magical flow patterns."
+	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/advanced_combiner_applications)
 	required_essences = list(
 		/datum/thaumaturgical_essence/motion = 20,
@@ -277,7 +283,7 @@
 
 /datum/thaumic_research_node/combiner_speed_two
 	name = "Rapid Synthesis"
-	desc = "Further acceleration of the essence combination processes through advanced magical circuitry and enhanced essence bonding techniques."
+	desc = "Further acceleration of combination processes through advanced magical circuitry and enhanced essence bonding techniques."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/combiner_speed)
 	required_essences = list(
@@ -304,7 +310,8 @@
 
 /datum/thaumic_research_node/combiner_output
 	name = "Enhanced Yield"
-	desc = "Techniques to increase the quantity of combined essences produced from each fusion process without a sacrifice in yield."
+	desc = "Techniques to increase the quantity of combined essences produced from each fusion process without sacrificing quality."
+	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/advanced_combiner_applications)
 	required_essences = list(
 		/datum/thaumaturgical_essence/crystal = 25,
@@ -329,7 +336,7 @@
 
 /datum/thaumic_research_node/combiner_output_three
 	name = "Abundance Creation"
-	desc = "Master-level techniques for achieving extraordinary yields from essence combination processes while maintaining perfect efficiency."
+	desc = "Master-level techniques for achieving extraordinary yields from essence combination processes while maintaining perfect quality."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/combiner_output_two)
 	required_essences = list(
@@ -388,7 +395,7 @@
 
 /datum/thaumic_research_node/splitter_output_four
 	name = "Multiplied Division"
-	desc = "Advanced splitting techniques that result in significant reduction of waste."
+	desc = "Advanced splitting techniques that produce additional essence fragments beyond the normal limits of division."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/master_splitter)
 	required_essences = list(
@@ -406,7 +413,7 @@
 
 /datum/thaumic_research_node/splitter_output_five
 	name = "Infinite Fragmentation"
-	desc = "The ultimate splitting technique, these result in additional essence yield beyond what was deemed possible."
+	desc = "The ultimate splitting technique, capable of producing unlimited essence divisions while preserving the full potency of each fragment."
 	icon_state = "node"
 	prerequisites = list(/datum/thaumic_research_node/splitter_output_four)
 	required_essences = list(

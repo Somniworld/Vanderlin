@@ -114,6 +114,7 @@
 	if(cookonme)
 		if(istype(W, /obj/item/reagent_containers/food/snacks))
 			if(istype(W, /obj/item/reagent_containers/food/snacks/egg))
+				to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")
 				return FALSE
 			var/obj/item/A = user.get_inactive_held_item()
 			if(A)

@@ -21,10 +21,7 @@
 	//What categories we are going to sort it in
 	var/list/category_tags = list(CTAG_DISABLED)
 	var/displays_adv_job = TRUE
-
-	var/apprentice_name  //Must be set to give apprentices the correct title.
-	var/is_recognized = FALSE // Shows their title even as foreigner, used for pilgrims and adventurers.
-
+	var/apprentice_name //Must be set to give apprentices the correct title. Note that pilgrims cannot have apprentices.
 
 /datum/advclass/proc/equipme(mob/living/carbon/human/H)
 	// input sleeps....
@@ -46,8 +43,6 @@
 			new horse(TU)
 	H.set_apprentice_name(apprentice_name)
 
-	if(is_recognized)
-		ADD_TRAIT(H, TRAIT_RECOGNIZED, TRAIT_GENERIC)
 /*	for(var/trait in traits_applied)
 		ADD_TRAIT(H, trait, ADVENTURER_TRAIT) */
 
@@ -86,13 +81,10 @@
 		return FALSE
 
 	if(length(allowed_races) && !(H.dna.species.id in allowed_races))
-		if(!(H.client.has_triumph_buy(TRIUMPH_BUY_RACE_ALL)))
+		if(!(H.client.triumph_ids.Find("race_all")))
 			return FALSE
 
 	if(length(allowed_ages) && !(H.age in allowed_ages))
-		return FALSE
-
-	if(length(allowed_patrons) && !(H.patron.type in allowed_patrons))
 		return FALSE
 
 	if(maximum_possible_slots > -1)

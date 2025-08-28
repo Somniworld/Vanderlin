@@ -1,7 +1,7 @@
 
 
 //IMPORTANT: Multiple animate() calls do not stack well, so try to do them all at once if you can.
-/mob/living/carbon/update_transform()
+/mob/living/carbon/update_transform(forcepixel)
 	var/matrix/ntransform = matrix(transform) //aka transform.Copy()
 	var/final_pixel_y = pixel_y
 	var/final_dir = dir
@@ -14,17 +14,16 @@
 		else //if(lying != 0)
 			if(lying_prev == 0) //Standing to lying
 				pixel_y = get_standard_pixel_y_offset()
-				final_pixel_y =  get_standard_pixel_y_offset()
+				final_pixel_y = get_standard_pixel_y_offset(lying_angle)
 				if(dir & (EAST|WEST)) //Facing east or west
-					final_dir = pick(NORTH, SOUTH) //So you fall on your side rather than your face or ass
+//					final_dir = pick(NORTH, SOUTH) //So you fall on your side rather than your face or ass
+					final_dir = SOUTH
 	if(resize != RESIZE_DEFAULT_SIZE)
 		changed++
 		ntransform.Scale(resize)
 		resize = RESIZE_DEFAULT_SIZE
 
 	if(changed)
-		ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, UPDATE_TRANSFORM_TRAIT)
-		addtimer(TRAIT_CALLBACK_REMOVE(src, TRAIT_NO_FLOATING_ANIM, UPDATE_TRANSFORM_TRAIT), 0.3 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 //		animate(src, transform = ntransform, time = (lying_prev == 0 || !lying) ? 2 : 0, pixel_y = final_pixel_y, dir = final_dir, easing = (EASE_IN|EASE_OUT))
 		transform = ntransform
 		pixel_x = get_standard_pixel_x_offset()
@@ -32,10 +31,11 @@
 		client?.pixel_x = pixel_x
 		client?.pixel_y = pixel_y
 		dir = final_dir
+		setMovetype(movement_type & ~FLOATING)  // If we were without gravity, the bouncing animation got stopped, so we make sure we restart it in next life().
 		update_vision_cone()
 	else
 		pixel_x = get_standard_pixel_x_offset()
-		pixel_y = get_standard_pixel_y_offset()
+		pixel_y = get_standard_pixel_y_offset(lying_angle)
 		client?.pixel_x = pixel_x
 		client?.pixel_y = pixel_y
 
@@ -57,7 +57,7 @@
 		update_vision_cone()
 
 /mob/living/carbon/regenerate_icons()
-	if(HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
+	if(notransform)
 		return 1
 	update_inv_hands()
 	update_inv_handcuffed()
@@ -156,18 +156,6 @@
 				behindhand_overlay.pixel_y += offsets[OFFSET_HANDS][2]
 			hands += inhand_overlay
 			behindhands += behindhand_overlay
-			if(I.blocks_emissive != EMISSIVE_BLOCK_NONE)
-				var/mutable_appearance/emissive_front = emissive_blocker(I.getmoboverlay(used_prop,prop,mirrored=flipsprite), layer=-HANDS_LAYER, appearance_flags = NONE)
-
-				emissive_front.pixel_y = inhand_overlay.pixel_y
-				emissive_front.pixel_x = inhand_overlay.pixel_x
-
-				var/mutable_appearance/emissive_back = emissive_blocker(I.getmoboverlay(used_prop,prop,behind=TRUE,mirrored=flipsprite), layer=-HANDS_BEHIND_LAYER, appearance_flags = NONE)
-				emissive_back.pixel_y = behindhand_overlay.pixel_y
-				emissive_back.pixel_x = behindhand_overlay.pixel_x
-
-				hands += emissive_front
-				behindhands += emissive_back
 		else
 			var/icon_file = I.lefthand_file
 			if(get_held_index_of_item(I) % 2 == 0)
@@ -383,17 +371,8 @@
 //Overlays for the worn overlay so you can overlay while you overlay
 //eg: ammo counters, primed grenade flashing, etc.
 //"icon_file" is used automatically for inhands etc. to make sure it gets the right inhand file
-/obj/item/proc/worn_overlays(mutable_appearance/standing, isinhands = FALSE, icon_file, dummy_block = FALSE)
-	SHOULD_CALL_PARENT(TRUE)
-	RETURN_TYPE(/list)
-
+/obj/item/proc/worn_overlays(isinhands = FALSE, icon_file)
 	. = list()
-	if((blocks_emissive == EMISSIVE_BLOCK_NONE) || dummy_block)
-		return
-
-	var/mutable_appearance/blocker_overlay = mutable_appearance(standing.icon, standing.icon_state, plane = EMISSIVE_PLANE, appearance_flags = KEEP_APART)
-	blocker_overlay.color = GLOB.em_block_color
-	. += blocker_overlay
 
 
 /mob/living/carbon/update_body()

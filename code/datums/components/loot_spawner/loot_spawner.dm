@@ -6,17 +6,6 @@
 		return FALSE
 	return TRUE
 
-/mob/living/proc/return_item_rarity()
-	return 1
-
-/mob/living/carbon/return_item_rarity()
-	var/total_rarity = 100
-
-	for(var/obj/item/item in get_equipped_items())
-		total_rarity += item.rarity_mod
-	total_rarity *= 0.01
-	return total_rarity
-
 /datum/component/loot_spawner
 	var/max_spawns = 3
 	var/spawns_per_person = 1
@@ -84,11 +73,11 @@
 	INVOKE_ASYNC(src, PROC_REF(start_reset), source, L, user)
 	return COMPONENT_NO_AFTERATTACK
 
-/datum/component/loot_spawner/proc/start_loot(atom/source, mob/living/user)
+/datum/component/loot_spawner/proc/start_loot(atom/source, mob/user)
 	user.visible_message("[user] [action_text] [parent].")
 	if(!do_after(user, action_time, source))
 		return
-	loot.spawn_loot(user, SSmapping.get_delve(user), user.return_item_rarity())
+	loot.spawn_loot(user)
 
 	if(resetting_item)
 		needs_reset = TRUE

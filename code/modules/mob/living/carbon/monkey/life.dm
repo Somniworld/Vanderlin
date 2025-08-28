@@ -6,7 +6,7 @@
 /mob/living/carbon/monkey/Life()
 	set invisibility = 0
 
-	if (HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
+	if (notransform)
 		return
 
 	if(..())

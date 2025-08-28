@@ -229,28 +229,29 @@
 		return
 	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(src == user)
-		if(offered_item_ref)
-			cancel_offering_item()
+		if(offered_item)
+			offered_item = null
+			user.visible_message(
+				span_notice("[user] puts their hand back down."),
+				span_notice("I stop offering the item."),
+			)
 		else
 			to_chat(user, span_warning("I can't offer myself an item!"))
 		return
-
-	var/obj/offered_item
-	if(user.offered_item_ref)
-		offered_item = user.offered_item_ref.resolve()
-		if(offered_item == weapon)
-			user.cancel_offering_item()
-			return
-		else
-			to_chat(user, span_notice("I'm already offering [offered_item]!"))
-			return
-
-	offered_item = user.get_active_held_item()
-
-	if(HAS_TRAIT(offered_item, TRAIT_NODROP))
+	var/obj/item/offer_attempt = user.get_active_held_item()
+	if(HAS_TRAIT(offer_attempt, TRAIT_NODROP))
 		to_chat(user, span_warning("I can't offer this."))
 		return
-	user.offer_item(src, offered_item)
+	user.offered_item = WEAKREF(offer_attempt)
+	user.visible_message(
+		span_notice("[user] offers [offer_attempt] to [src] with an outstreched hand."),
+		span_notice("I offer [offer_attempt] to [src] with an outstreched hand."),
+	)
+	to_chat(user, span_smallnotice("I will hold [offer_attempt] out for 10 seconds. \
+	If I switch hands or take it out my hand it will not be able to be taken.\n \
+	I can stop offering the item by using the same hand on myself."))
+	to_chat(src, span_notice("[user] offers [offer_attempt] to me..."))
+	addtimer(VARSET_CALLBACK(user, offered_item, null), 10 SECONDS)
 
 /**
  * Called from [/mob/living/proc/attackby]
@@ -297,7 +298,7 @@
 		return
 	if(user.get_active_held_item() != src)
 		return
-	if(user.incapacitated(IGNORE_GRAB))
+	if(user.incapacitated(ignore_grab = TRUE))
 		return
 	if((M.body_position != LYING_DOWN))
 		if(M.checkmiss(user))
@@ -431,21 +432,13 @@
 		*/
 		if(C.domhand)
 			used_str = C.get_str_arms(C.used_hand)
-	//STR is +1 from STRONG stance and -1 from SWIFT stance
+	//STR is +1 from STRONG stance and -1 from WEAK stance
 	if(istype(user.rmb_intent, /datum/rmb_intent/strong))
 		used_str++
-	if(istype(user.rmb_intent, /datum/rmb_intent/swift))
-		used_str--
 	if(istype(user.rmb_intent, /datum/rmb_intent/weak))
 		used_str /= 2
 	//Your max STR is 20.
 	used_str = CLAMP(used_str, 1, 20)
-	//Vampire checks for Potence
-	if(ishuman(user))
-		var/mob/living/carbon/human/user_human = user
-		if(user_human.clan)
-			used_str += floor(0.5 * user_human.potence_weapon_buff)
-			// For each level of potence user gains 0.5 STR, at 5 Potence their STR buff is 2.5
 	if(used_str >= 11)
 		newforce = newforce + (newforce * ((used_str - 10) * 0.1))
 	else if(used_str <= 9)
@@ -454,7 +447,7 @@
 	if(I.minstr)
 		var/effective = I.minstr
 		if(HAS_TRAIT(I, TRAIT_WIELDED))
-			effective *= 0.75
+			effective = I.minstr * 0.75
 		//Strength influence is reduced to 30%
 		if(effective > user.STASTR)
 			newforce = max(newforce*0.3, 1)
@@ -680,7 +673,6 @@
  * * click_parameters - is the params string from byond [/atom/proc/Click] code, see that documentation.
  */
 /obj/item/proc/afterattack(atom/target, mob/living/user, proximity_flag, click_parameters)
-	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, target, user, proximity_flag, click_parameters)
 	SEND_SIGNAL(user, COMSIG_MOB_ITEM_AFTERATTACK, target, user, proximity_flag, click_parameters)
 	if(force && !user.used_intent.tranged && !user.used_intent.tshield)

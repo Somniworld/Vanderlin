@@ -19,8 +19,7 @@
 	/// Whether to grant a lit torch upon spawn
 	var/grant_lit_torch = FALSE
 	/// Whether to show them as foreigners
-	var/is_foreigner = TRUE // Hide their title, show them as a foreigner
-	var/is_recognized = FALSE // Show their title even as a foreigner.
+	var/is_foreigner = TRUE
 	var/advjob_examine = TRUE
 	var/banned_leprosy = TRUE
 	var/banned_lunatic = TRUE
@@ -28,8 +27,6 @@
 /datum/migrant_role/proc/after_spawn(mob/living/carbon/human/character)
 	if(is_foreigner)
 		ADD_TRAIT(character, TRAIT_FOREIGNER, TRAIT_GENERIC)
-	if(is_recognized)
-		ADD_TRAIT(character, TRAIT_RECOGNIZED, TRAIT_GENERIC)
 	return
 
 /datum/migrant_role/pilgrim

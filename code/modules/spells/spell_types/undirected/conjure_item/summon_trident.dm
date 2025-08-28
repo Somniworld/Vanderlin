@@ -31,7 +31,8 @@
 	lefthand_file = 'icons/mob/inhands/weapons/rogue_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/rogue_righthand.dmi'
 	icon_state = "tridentgold"
-	SET_BASE_PIXEL(-16, -16)
+	pixel_y = -16
+	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE

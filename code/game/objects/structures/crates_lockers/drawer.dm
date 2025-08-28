@@ -22,12 +22,12 @@
 	icon_state = "drawer5"
 	base_icon_state = "drawer5"
 	dir = SOUTH
-	SET_BASE_PIXEL(0, 16)
+	pixel_y = 16
 
 /obj/structure/closet/crate/drawer/random
 	icon_state = "drawer1"
 	base_icon_state = "drawer1"
-	SET_BASE_PIXEL(0, 8)
+	pixel_y = 8
 
 /obj/structure/closet/crate/drawer/random/Initialize()
 	. = ..()
@@ -36,3 +36,4 @@
 		icon_state = "[base_icon_state]"
 	else
 		base_icon_state = "drawer1"
+		pixel_y = 8

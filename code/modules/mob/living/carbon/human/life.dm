@@ -23,12 +23,10 @@
 
 /mob/living/carbon/human/Life()
 //	set invisibility = 0
-	if (HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
+	if (notransform)
 		return
 
 	. = ..()
-
-	SEND_SIGNAL(src, COMSIG_HUMAN_LIFE)
 
 	if (QDELETED(src))
 		return 0
@@ -55,30 +53,26 @@
 						to_chat(src, span_danger("Nights Survived: \Roman[allmig_reward]"))
 						if(allmig_reward > 0 && allmig_reward % 2 == 0)
 							adjust_triumphs(1)
-	if(!HAS_TRAIT(src, TRAIT_STASIS))
-		if(HAS_TRAIT(src, TRAIT_LEPROSY))
-			if(MOBTIMER_FINISHED(src, MT_LEPERBLEED, 12 MINUTES))
-				if(prob(5))
-					to_chat(src, span_warning("My skin opens up and bleeds..."))
-					MOBTIMER_SET(src, MT_LEPERBLEED)
-					var/obj/item/bodypart/part = pick(bodyparts)
-					if(part)
-						part.add_wound(/datum/wound/slash/small)
-					adjustToxLoss(10)
-		handle_heart()
-		handle_liver()
-		update_stamina()
-		update_energy()
-		handle_environment()
-		if(health <= 0)
-			apply_damage(1, OXY)
-		if(dna?.species)
-			dna.species.spec_life(src) // for mutantraces
-
+	if(HAS_TRAIT(src, TRAIT_LEPROSY))
+		if(MOBTIMER_FINISHED(src, MT_LEPERBLEED, 6 MINUTES))
+			if(prob(10))
+				to_chat(src, span_warning("My skin opens up and bleeds..."))
+				MOBTIMER_SET(src, MT_LEPERBLEED)
+				var/obj/item/bodypart/part = pick(bodyparts)
+				if(part)
+					part.add_wound(/datum/wound/slash)
+		adjustToxLoss(0.3)
 	//heart attack stuff
 	handle_curses()
+	handle_heart()
+	handle_liver()
+	update_stamina()
+	update_energy()
+	handle_environment()
 	if(charflaw && !charflaw.ephemeral)
 		charflaw.flaw_on_life(src)
+	if(health <= 0)
+		apply_damage(1, OXY)
 	if(!client && !HAS_TRAIT(src, TRAIT_NOSLEEP) && !ai_controller)
 		if(MOBTIMER_EXISTS(src, MT_SLO))
 			if(MOBTIMER_FINISHED(src, MT_SLO, 90 SECONDS)) //?????
@@ -87,6 +81,9 @@
 			MOBTIMER_SET(src, MT_SLO)
 	else
 		MOBTIMER_UNSET(src, MT_SLO)
+
+	if(dna?.species)
+		dna.species.spec_life(src) // for mutantraces
 
 	if(!typing)
 		set_typing_indicator(FALSE)
@@ -99,7 +96,7 @@
 /mob/living/carbon/human/DeadLife()
 	set invisibility = 0
 
-	if(HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
+	if(notransform)
 		return
 
 	if(mind)

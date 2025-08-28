@@ -60,7 +60,7 @@
 
 /datum/outfit/job/mig_prisoner/pre_equip(mob/living/carbon/human/H)
 	..()
-	pants = /obj/item/clothing/pants/loincloth/colored/brown
+	pants = /obj/item/clothing/pants/loincloth/brown
 	mask = /obj/item/clothing/face/facemask/prisoner
 	if(H.mind)
 		H.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)

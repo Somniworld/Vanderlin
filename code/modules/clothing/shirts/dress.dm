@@ -16,29 +16,26 @@
 	icon_state = "dressgen"
 	item_state = "dressgen"
 
-/obj/item/clothing/shirt/dress/gen/colored
-	misc_flags = CRAFTING_TEST_EXCLUDE
-
-/obj/item/clothing/shirt/dress/gen/colored/brown
+/obj/item/clothing/shirt/dress/gen/brown
 	color = CLOTHING_PEASANT_BROWN
 
-/obj/item/clothing/shirt/dress/gen/colored/black
+/obj/item/clothing/shirt/dress/gen/black
 	color = CLOTHING_SOOT_BLACK
 
-/obj/item/clothing/shirt/dress/gen/colored/blue
+/obj/item/clothing/shirt/dress/gen/blue
 	color = CLOTHING_SKY_BLUE
 
-/obj/item/clothing/shirt/dress/gen/colored/green
+/obj/item/clothing/shirt/dress/gen/green
 	color = CLOTHING_BOG_GREEN
 
-/obj/item/clothing/shirt/dress/gen/colored/purple
+/obj/item/clothing/shirt/dress/gen/purple
 	color = CLOTHING_PLUM_PURPLE
 
-/obj/item/clothing/shirt/dress/gen/colored/maid
+/obj/item/clothing/shirt/dress/gen/maid
 	color = CLOTHING_DARK_INK
 	uses_lord_coloring = LORD_PRIMARY
 
-/obj/item/clothing/shirt/dress/gen/colored/random/Initialize()
+/obj/item/clothing/shirt/dress/gen/random/Initialize()
 	color = pick_assoc(GLOB.peasant_dyes)
 	return ..()
 
@@ -52,24 +49,21 @@
 	salvage_result = /obj/item/natural/silk
 	salvage_amount = 1
 
-/obj/item/clothing/shirt/dress/silkdress/colored
-	misc_flags = CRAFTING_TEST_EXCLUDE
-
-/obj/item/clothing/shirt/dress/silkdress/colored/princess
+/obj/item/clothing/shirt/dress/silkdress/princess
 	color = CLOTHING_CHALK_WHITE
 	uses_lord_coloring = LORD_PRIMARY
 
-/obj/item/clothing/shirt/dress/silkdress/colored/black
+/obj/item/clothing/shirt/dress/silkdress/black
 	color = CLOTHING_DARK_INK
 
-/obj/item/clothing/shirt/dress/silkdress/colored/green
+/obj/item/clothing/shirt/dress/silkdress/green
 	color = CLOTHING_FOREST_GREEN
 
-/obj/item/clothing/shirt/dress/silkdress/colored/random/Initialize()
+/obj/item/clothing/shirt/dress/silkdress/random/Initialize()
 	color = pick_assoc(GLOB.noble_dyes)
 	return ..()
 
-/obj/item/clothing/shirt/dress/silkdress/colored/silkdressprimary
+/obj/item/clothing/shirt/dress/silkdress/silkdressprimary
 	color = CLOTHING_BLOOD_RED
 	uses_lord_coloring = LORD_PRIMARY
 
@@ -102,16 +96,20 @@
 
 //................ Princess Dress ............... //
 /obj/item/clothing/shirt/dress/royal/princess
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "pristine dress"
 	desc = "A flowy, intricate dress made by the finest tailors in the land for the monarch's children."
 	icon_state = "princess"
+	boobed = TRUE
 	detail_color = CLOTHING_BERRY_BLUE
 
 //................ Prince Shirt   ............... //
 /obj/item/clothing/shirt/dress/royal/prince
+	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "gilded dress shirt"
 	desc = "A gold-embroidered dress shirt specially tailored for the monarch's children."
 	icon_state = "prince"
+	boobed = TRUE
 	detail_color = CLOTHING_ROYAL_MAJENTA
 
 // End royal clothes

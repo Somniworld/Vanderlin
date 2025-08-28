@@ -111,21 +111,20 @@
 	var/used_str = STASTR
 
 	if(mind?.has_antag_datum(/datum/antagonist/werewolf))
-		return damage * 2
+		return 30
 
 	if(domhand)
 		used_str = get_str_arms(used_hand)
 
 	if(used_str >= 11)
-		damage = max(damage * (1 + ((used_str - 10) * 0.03)), 1)
+		damage = max(damage + (damage * ((used_str - 10) * 0.3)), 1)
 	if(used_str <= 9)
-		damage = max(damage * (1 - ((10 - used_str) * 0.05)), 1)
+		damage = max(damage - (damage * ((10 - used_str) * 0.1)), 1)
 
 	var/obj/item/bodypart/BP = has_hand_for_held_index(used_hand)
 	if(istype(BP))
 		damage *= BP.punch_modifier
 
-	damage += dna.species.punch_damage
 	return damage
 
 /mob/living/carbon/human/proc/get_kick_damage(multiplier = 1)

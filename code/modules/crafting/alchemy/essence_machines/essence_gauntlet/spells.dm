@@ -10,15 +10,6 @@
 	cooldown_time = 30 SECONDS
 	point_cost = 2
 	spell_type = SPELL_ESSENCE
-	experience_modifer = 0
-
-/datum/action/cooldown/spell/essence/get_adjusted_charge_time()
-	return charge_time
-
-/datum/action/cooldown/spell/essence/get_adjusted_cost(cost_override)
-	if(cost_override)
-		return cost_override
-	return spell_cost
 
 /datum/action/cooldown/spell/essence/breeze
 	name = "Gentle Breeze"
@@ -875,8 +866,8 @@
 	owner.visible_message(span_notice("[owner] calls upon divine light to bring perfect order."))
 
 	for(var/obj/item/I in range(2, target_turf))
-		I.pixel_x = I.base_pixel_x
-		I.pixel_y = I.base_pixel_y
+		I.pixel_x = 0
+		I.pixel_y = 0
 		I.transform = matrix()
 
 	var/obj/effect/temp_visual/divine_light/light = new(target_turf)

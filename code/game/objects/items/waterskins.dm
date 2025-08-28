@@ -3,7 +3,6 @@
 	desc = "A leather waterskin."
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "waterskin"
-	fill_icon_state = ""
 	amount_per_transfer_from_this = 6
 	possible_transfer_amounts = list(3,6,9)
 	fill_icon_thresholds = null
@@ -20,7 +19,7 @@
 	sewrepair = TRUE
 	grid_width = 32
 	grid_height = 64
-	can_label_container = FALSE
+	can_label_bottle = FALSE
 	fancy = TRUE
 
 /obj/item/reagent_containers/glass/bottle/waterskin/Initialize()

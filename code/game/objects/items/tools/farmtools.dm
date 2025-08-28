@@ -30,7 +30,8 @@
 	desc = "A simple and rustic tool for working the fields, not a very effective weapon."
 	icon_state = "cfork"
 	item_state = "cfork"
-	SET_BASE_PIXEL(-16, -16)
+	pixel_y = -16
+	pixel_x = -16
 	experimental_inhand = TRUE
 	experimental_onback = TRUE
 	experimental_onhip = TRUE

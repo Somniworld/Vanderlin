@@ -5,6 +5,7 @@
 	the glances of disgust and loathing others give you is just a friendly greeting; \
 	the only reason you've not been killed already is because volfs are known to be repelled by decaying flesh. \
 	You're going to be a solemn reminder of what happens when something unwanted is born into this world."
+	flag = APPRENTICE
 	department_flag = PEASANTS
 	display_order = JDO_VAGRANT
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
@@ -36,18 +37,18 @@
 	if(prob(10))
 		beltl = /obj/item/clothing/face/cigarette/rollie/cannabis
 	if(prob(10))
-		cloak = /obj/item/clothing/cloak/raincloak/colored/brown
+		cloak = /obj/item/clothing/cloak/raincloak/brown
 	if(prob(10))
 		gloves = /obj/item/clothing/gloves/fingerless
 	if(H.gender == FEMALE)
 		armor = /obj/item/clothing/shirt/rags
 	else
-		pants = /obj/item/clothing/pants/tights/colored/vagrant
+		pants = /obj/item/clothing/pants/tights/vagrant
 		if(prob(50))
-			pants = /obj/item/clothing/pants/tights/colored/vagrant/l
-		shirt = /obj/item/clothing/shirt/undershirt/colored/vagrant
+			pants = /obj/item/clothing/pants/tights/vagrant/l
+		shirt = /obj/item/clothing/shirt/undershirt/vagrant
 		if(prob(50))
-			shirt = /obj/item/clothing/shirt/undershirt/colored/vagrant/l
+			shirt = /obj/item/clothing/shirt/undershirt/vagrant/l
 	H.adjust_skillrank(/datum/skill/misc/sneaking, pick(1,2,3,4,5), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/stealing, pick(1,2,3,4,5), TRUE)
 	H.adjust_skillrank(/datum/skill/misc/lockpicking, pick (1,2,3,4,5), TRUE) // thug lyfe
@@ -55,7 +56,6 @@
 	H.adjust_skillrank(/datum/skill/combat/wrestling, pick(1,2,3), TRUE) // Street-fu
 	H.adjust_skillrank(/datum/skill/combat/unarmed, pick(1,2,3), TRUE)
 	H.base_fortune = rand(1, 20)
-	H.recalculate_stats(FALSE)
 	if(prob(5))
 		r_hand = /obj/item/weapon/mace/woodclub
 	H.change_stat(STATKEY_INT, -3)

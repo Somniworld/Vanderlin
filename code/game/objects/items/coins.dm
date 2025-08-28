@@ -45,16 +45,16 @@
 
 /obj/item/coin/pickup(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_MATTHIOS_CURSE) && prob(33))
+	if(HAS_TRAIT(user, TRAIT_MATTHIOS_CURSE))
 		var/mob/living/carbon/human/H = user
 		to_chat(H, span_warning("The idea repulses me!"))
 		H.cursed_freak_out()
-		H.Paralyze(4 SECONDS)
+		H.Paralyze(20)
 		return
 
 /obj/item/coin/proc/scatter(turf/T)
-	pixel_x = base_pixel_x + rand(-8, 8)
-	pixel_y = base_pixel_y + rand(-5, 5)
+	pixel_x = rand(-8, 8)
+	pixel_y = rand(-5, 5)
 	if(isturf(T) && quantity > 1)
 		for(var/i in 2 to quantity) // exclude the first coin
 			var/spawned_type = type
@@ -70,8 +70,8 @@
 			var/obj/item/coin/new_coin = new spawned_type
 			new_coin.forceMove(T)
 			new_coin.set_quantity(1) // prevent exploits with coin piles
-			new_coin.pixel_x = new_coin.base_pixel_x + rand(-8, 8)
-			new_coin.pixel_y = new_coin.base_pixel_y + rand(-5, 5)
+			new_coin.pixel_x = rand(-8, 8)
+			new_coin.pixel_y = rand(-5, 5)
 
 	set_quantity(1)
 
@@ -252,40 +252,27 @@
 		qdel(G)
 	playsound(loc, 'sound/foley/coins1.ogg', 100, TRUE, -2)
 
-/obj/item/coin/proc/rig_coin(mob/user)
-	var/outcome = alert(user, "What will you rig the next coin flip to?","XYLIX","Heads","Tails","Play fair")
-	if(QDELETED(src) || !user.is_holding(src))
-		return
-	switch(outcome)
-		if("Heads")
-			rigged_outcome = 1
-			record_round_statistic(STATS_GAMES_RIGGED)
-		if("Tails")
-			rigged_outcome = 2
-			record_round_statistic(STATS_GAMES_RIGGED)
-		if("Play fair")
-			rigged_outcome = 0
-
-/obj/item/coin/attack_self_secondary(mob/user, params)
-	. = ..()
-	if(.)
-		return
-	if(quantity == 1 && HAS_TRAIT(user, TRAIT_BLACKLEG))
-		INVOKE_ASYNC(src, PROC_REF(rig_coin), user)
-		return TRUE
-
 /obj/item/coin/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(quantity == 1)
 		if(HAS_TRAIT(user, TRAIT_BLACKLEG))
-			INVOKE_ASYNC(src, PROC_REF(rig_coin), user)
-		return
+			var/outcome = alert(user, "What will you rig the next coin flip to?","XYLIX","Heads","Tails","Play fair")
+			if(QDELETED(src) || !user.is_holding(src))
+				return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+			switch(outcome)
+				if("Heads")
+					rigged_outcome = 1
+				if("Tails")
+					rigged_outcome = 2
+				if("Play fair")
+					rigged_outcome = 0
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 	user.put_in_active_hand(new type(user.loc, 1))
 	set_quantity(quantity - 1)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/coin/attack_self(mob/living/user, params)
 	if(quantity > 1 || !base_type)

@@ -81,8 +81,6 @@
 #define DEPLOY_TEST
 #endif
 
-//#define FORCE_RANDOM_WORLD_GEN
-
 //#define LOWMEMORYMODE //uncomment this to load centcom and roguetest and thats it.
 
 //#define NO_DUNGEON //comment this to load dungeons.

@@ -16,7 +16,6 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 	abstract_type = /datum/container_craft
 
 	var/atom/output
-	/// How many times the output is made. Preferrably for item outputs.
 	var/output_amount = 1
 	var/category
 
@@ -34,8 +33,6 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 	var/list/optional_requirements
 	var/list/optional_wildcard_requirements
 	var/list/optional_reagent_requirements
-
-	var/subtype_reagents_allowed = FALSE
 
 	///Maximum number of optional ingredients to use per craft, set to 0 for unlimited
 	var/max_optionals = 0
@@ -63,7 +60,7 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 /datum/container_craft/proc/requirements_still_met(obj/item/crafter, list/pathed_items)
 	if(length(reagent_requirements))
 		for(var/reagent_type in reagent_requirements)
-			if(!crafter.reagents.has_reagent(reagent_type, reagent_requirements[reagent_type], check_subtypes = subtype_reagents_allowed))
+			if(!crafter.reagents.has_reagent(reagent_type, reagent_requirements[reagent_type]))
 				return FALSE
 
 	// Clone the lists for validation
@@ -94,16 +91,7 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 		var/list/fake_reagents = reagent_requirements.Copy()
 		for(var/datum/reagent/listed_reagent as anything in crafter.reagents.reagent_list) // this isn't perfect since it excludes blood reagent types like tiefling blood from recipes
 			if(!(listed_reagent.type in fake_reagents))
-				if(subtype_reagents_allowed)
-					var/reagent_found = FALSE
-					for(var/datum/reagent/reagent_requirement as anything in fake_reagents)
-						if(ispath(listed_reagent.type, reagent_requirement))
-							reagent_found = TRUE
-							break
-					if(!reagent_found)
-						continue
-				else
-					continue
+				continue
 			var/potential_multiplier = FLOOR(listed_reagent.volume / fake_reagents[listed_reagent.type], 1)
 			if(!highest_multiplier)
 				highest_multiplier = potential_multiplier
@@ -154,9 +142,8 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 		initiator = get_mob_by_ckey(crafter.fingerprintslast)
 	var/datum/callback/on_craft_start_ref = on_craft_start
 	var/datum/callback/on_craft_fail_ref = on_craft_failed
-	if(!on_craft_start_ref)
+	if(!on_craft_start_ref && !on_craft_fail_ref)
 		on_craft_start_ref = create_start_callback(crafter, initiator, highest_multiplier)
-	if(!on_craft_fail_ref)
 		on_craft_fail_ref = create_fail_callback(crafter, initiator, highest_multiplier)
 	new /datum/container_craft_operation(crafter, src, initiator, highest_multiplier, on_craft_start_ref, on_craft_fail_ref, cooking_sound)
 	return TRUE
@@ -192,7 +179,7 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 
 		if(length(reagent_requirements))
 			for(var/reagent as anything in reagent_requirements)
-				if(!crafter.reagents.has_reagent(reagent, reagent_requirements[reagent], check_subtypes = subtype_reagents_allowed))
+				if(!crafter.reagents.has_reagent(reagent, reagent_requirements[reagent]))
 					return FALSE
 				passed_reagents |= reagent
 				passed_reagents[reagent] = reagent_requirements[reagent]
@@ -270,7 +257,7 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 		// Check optional reagents
 		if(length(optional_reagent_requirements))
 			for(var/opt_reagent in optional_reagent_requirements)
-				if(crafter.reagents.has_reagent(opt_reagent, optional_reagent_requirements[opt_reagent], check_subtypes = subtype_reagents_allowed))
+				if(crafter.reagents.has_reagent(opt_reagent, optional_reagent_requirements[opt_reagent]))
 					potential_optionals += list(list(
 						"type" = "reagent",
 						"reagent" = opt_reagent,
@@ -335,8 +322,8 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 		// Remove all tracked items
 		for(var/obj/item/item_to_delete in items_to_delete)
 			qdel(item_to_delete)
-	var/turf/turf = get_turf(crafter)
-	turf.visible_message(span_green(complete_message))
+		var/turf/turf = get_turf(crafter)
+		turf.visible_message(span_green(complete_message))
 
 /datum/container_craft/proc/create_item(obj/item/crafter, mob/initiator, list/found_optional_requirements, list/found_optional_wildcards, list/found_optional_reagents, list/removing_items)
 	// Variables for quality calculation
@@ -362,7 +349,7 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 	var/average_freshness = (ingredient_count > 0) ? (total_freshness / ingredient_count) : 0
 
 	// Get the initiator's cooking skill
-	var/cooking_skill = initiator.get_skill_level(used_skill)
+	var/cooking_skill = initiator.get_skill_level(/datum/skill/craft/cooking)
 
 	// Create the output items
 	for(var/j = 1 to output_amount)
@@ -375,7 +362,10 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
 			food_item.warming = min(5 MINUTES, average_freshness)
 
 			// Calculate final quality based on ingredients, skill, and recipe
-			apply_food_quality(food_item, cooking_skill, highest_quality, average_freshness)
+			var/final_quality = calculate_quality(cooking_skill, highest_quality, average_freshness)
+			food_item.quality = round(final_quality)
+
+			apply_quality_description(food_item, final_quality)
 
 		SEND_SIGNAL(crafter, COMSIG_TRY_STORAGE_INSERT, created_output, null, null, TRUE, TRUE)
 		after_craft(created_output, crafter, initiator, found_optional_requirements, found_optional_wildcards, found_optional_reagents, removing_items)
@@ -390,20 +380,17 @@ GLOBAL_LIST_INIT(container_craft_to_singleton, init_container_crafts())
  * @param quality_modifier Optional modifier from the recipe
  * @return The calculated quality value
  */
-/datum/container_craft/proc/apply_food_quality(obj/item/reagent_containers/food/snacks/food_item, cooking_skill, ingredient_quality, freshness, quality_modifier = 1.0)
-    var/datum/quality_calculator/cooking/cook_calc = new(
-        base_qual = 0,
-        mat_qual = ingredient_quality,
-        skill_qual = cooking_skill,
-        perf_qual = 0,
-        diff_mod = 0,
-        components = 1,
-        fresh = freshness,
-        recipe_mod = quality_modifier
-    )
-    cook_calc.apply_quality_to_item(food_item)
-    qdel(cook_calc)
+/datum/container_craft/proc/calculate_quality(cooking_skill, ingredient_quality, freshness, quality_modifier = 1.0)
+	return calculate_food_quality(cooking_skill, ingredient_quality, freshness, quality_modifier)
 
+/**
+ * Applies visual and descriptive modifications to food based on its quality.
+ *
+ * @param food_item The food item to modify
+ * @param quality The calculated quality value
+ */
+/datum/container_craft/proc/apply_quality_description(obj/item/reagent_containers/food/snacks/food_item, quality)
+	apply_food_quality(food_item, quality)
 
 /datum/container_craft/proc/after_craft(atom/created_output, obj/item/crafter, mob/initiator, list/found_optional_requirements, list/found_optional_wildcards, list/found_optional_reagents, list/removing_items)
 	// This is an extension point for specific crafting types to do additional processing

@@ -4,7 +4,6 @@
 	dynamic_hair_suffix = ""
 	icon = 'icons/roguetown/clothing/head.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
-	abstract_type = /obj/item/clothing/head/hooded
 
 /obj/item/clothing/head/hooded/Destroy()
 	connectedc = null
@@ -48,37 +47,34 @@
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/cloth
 
-/obj/item/clothing/head/roguehood/colored
-	misc_flags = CRAFTING_TEST_EXCLUDE
-
-/obj/item/clothing/head/roguehood/colored/uncolored
+/obj/item/clothing/head/roguehood/uncolored
 	color = CLOTHING_LINEN
 
-/obj/item/clothing/head/roguehood/colored/brown
+/obj/item/clothing/head/roguehood/brown
 	color = CLOTHING_BARK_BROWN
 
-/obj/item/clothing/head/roguehood/colored/red
+/obj/item/clothing/head/roguehood/red
 	color = CLOTHING_BLOOD_RED
 
-/obj/item/clothing/head/roguehood/colored/black
+/obj/item/clothing/head/roguehood/black
 	color = CLOTHING_SOOT_BLACK
 
-/obj/item/clothing/head/roguehood/colored/green
+/obj/item/clothing/head/roguehood/green
 	color = CLOTHING_FOREST_GREEN
 
-/obj/item/clothing/head/roguehood/colored/random/Initialize()
+/obj/item/clothing/head/roguehood/random/Initialize()
 	color = pick( CLOTHING_PEASANT_BROWN, CLOTHING_SPRING_GREEN, CLOTHING_CHESTNUT, CLOTHING_YELLOW_OCHRE)
 	return ..()
 
-/obj/item/clothing/head/roguehood/colored/mage/Initialize()
+/obj/item/clothing/head/roguehood/mage/Initialize()
 	color = pick(CLOTHING_MAGE_BLUE, CLOTHING_MAGE_GREEN, CLOTHING_MAGE_ORANGE, CLOTHING_MAGE_YELLOW)
 	return ..()
 
-/obj/item/clothing/head/roguehood/colored/guard
+/obj/item/clothing/head/roguehood/guard
 	color = CLOTHING_PLUM_PURPLE
 	uses_lord_coloring = LORD_PRIMARY
 
-/obj/item/clothing/head/roguehood/colored/guardsecond
+/obj/item/clothing/head/roguehood/guardsecond
 	color = CLOTHING_BLOOD_RED
 	uses_lord_coloring = LORD_SECONDARY
 

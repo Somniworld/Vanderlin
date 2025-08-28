@@ -84,8 +84,8 @@
 	if(!..()) //was it caught by a mob?
 		var/turf/T = get_turf(hit_atom)
 		var/obj/O = new /obj/effect/decal/cleanable/food/egg_smudge(T)
-		O.pixel_x = O.base_pixel_x + rand(-8,8)
-		O.pixel_y = O.base_pixel_y + rand(-8,8)
+		O.pixel_x = rand(-8,8)
+		O.pixel_y = rand(-8,8)
 		O.color = "#9794be"
 		qdel(src)
 
@@ -145,8 +145,6 @@
 	desc = "Made from wood."
 	icon_state = "platter"
 	dropshrink = 0.9
-	grid_height = 32
-	grid_width = 64
 	resistance_flags = NONE
 	drop_sound = 'sound/foley/dropsound/wooden_drop.ogg'
 	experimental_inhand = FALSE
@@ -204,18 +202,15 @@
 
 /obj/item/reagent_containers/glass/bowl/iron
 	icon_state = "bowl_iron"
-	fill_icon_state = "bowl"
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 
 /obj/item/reagent_containers/glass/bowl/pewter
 	icon_state = "bowl_iron"
-	fill_icon_state = "bowl"
 	drop_sound = 'sound/foley/dropsound/armor_drop.ogg'
 
 /obj/item/reagent_containers/glass/bowl/clay
 	desc = "Made from fired clay."
 	icon_state = "bowl_clay"
-	fill_icon_state = "bowl"
 	drop_sound = 'sound/foley/dropsound/brick_drop.ogg'
 
 /obj/item/reagent_containers/glass/bowl/clay/set_material_information()

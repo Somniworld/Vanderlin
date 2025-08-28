@@ -9,15 +9,14 @@
 /datum/outfit/job/mercenary/blackoak/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/boots/leather
-	cloak = /obj/item/clothing/cloak/half/colored/red
-	head = /obj/item/clothing/head/helmet/sallet/rare/elven
+	cloak = /obj/item/clothing/cloak/half/red
+	head = /obj/item/clothing/head/helmet/sallet/elven
 	gloves = /obj/item/clothing/gloves/angle
 	belt = /obj/item/storage/belt/leather/mercenary/black
-	armor = /obj/item/clothing/armor/cuirass/rare/elven
+	armor = /obj/item/clothing/armor/cuirass/elven
 	backl = /obj/item/storage/backpack/satchel
 	beltl = /obj/item/weapon/knife/dagger/steel/special
-	scabbards = list(/obj/item/weapon/scabbard/knife)
-	shirt = /obj/item/clothing/shirt/undershirt/colored/black
+	shirt = /obj/item/clothing/shirt/undershirt/black
 	pants = /obj/item/clothing/pants/trou/leather
 	neck = /obj/item/clothing/neck/chaincoif
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor)
@@ -44,9 +43,9 @@
 	switch(weapon_choice)
 		if("Spear")
 			backr = /obj/item/weapon/polearm/spear
-			H.adjust_skillrank(/datum/skill/combat/polearms, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 		if("Regal Elven Club")
 			beltr = /obj/item/weapon/mace/elvenclub/steel
-			H.adjust_skillrank(/datum/skill/combat/axesmaces, 4, TRUE)
+			H.adjust_skillrank(/datum/skill/combat/axesmaces, 3, TRUE)
 
 

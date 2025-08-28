@@ -159,8 +159,8 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/churchmarble,
 /area/rogue/under/tomb/indoors/church)
-"fi" = (
-/obj/structure/chair/bench/coucha/r,
+"fe" = (
+/obj/structure/chair/bench/coucha,
 /turf/open/floor/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "fs" = (
@@ -496,6 +496,10 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/churchrough,
 /area/rogue/under/tomb)
+"qB" = (
+/obj/structure/chair/bench/coucha/r,
+/turf/open/floor/churchmarble,
+/area/rogue/under/tomb/indoors/church)
 "qC" = (
 /obj/structure/chair/bench/church/mid,
 /turf/open/floor/churchmarble,
@@ -591,12 +595,19 @@
 /obj/effect/decal/cleanable/blood/gibs/down,
 /turf/open/floor/concrete,
 /area/rogue/under/tomb/indoors/church)
-"vI" = (
-/obj/structure/chair/bench/coucha,
-/turf/open/floor/churchmarble,
-/area/rogue/under/tomb/indoors/church)
 "vM" = (
 /obj/structure/stairs/stone/church,
+/turf/open/floor/churchmarble,
+/area/rogue/under/tomb/indoors/church)
+"vY" = (
+/obj/structure/table/wood/large/corner{
+	dir = 6
+	},
+/obj/item/clothing/head/roguehood/brown,
+/obj/item/clothing/head/roguehood/brown{
+	pixel_x = 7;
+	pixel_y = -4
+	},
 /turf/open/floor/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "wa" = (
@@ -999,17 +1010,6 @@
 /area/rogue/under/tomb)
 "MG" = (
 /obj/structure/barricade/wooden,
-/turf/open/floor/churchmarble,
-/area/rogue/under/tomb/indoors/church)
-"MM" = (
-/obj/structure/table/wood/large/corner{
-	dir = 6
-	},
-/obj/item/clothing/head/roguehood/colored/brown,
-/obj/item/clothing/head/roguehood/colored/brown{
-	pixel_x = 7;
-	pixel_y = -4
-	},
 /turf/open/floor/churchmarble,
 /area/rogue/under/tomb/indoors/church)
 "Ne" = (
@@ -2027,9 +2027,9 @@ JI
 JI
 JI
 nm
-vI
+fe
 JI
-MM
+vY
 uT
 JQ
 JQ
@@ -2059,7 +2059,7 @@ SL
 mM
 JI
 nm
-fi
+qB
 Ju
 Ju
 ho

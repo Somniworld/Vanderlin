@@ -3,6 +3,7 @@
 	icon = 'icons/roguetown/misc/lighting.dmi'
 	icon_state = "stonefire1"
 	density = TRUE
+//	pixel_y = 10
 	base_state = "stonefire"
 	climbable = TRUE
 	pass_flags_self = LETPASSTHROW
@@ -131,23 +132,23 @@
 	bulb_colour = "#ffa35c"
 	crossfire = FALSE
 	cookonme = FALSE
-	SET_BASE_PIXEL(0, 32)
+	pixel_y = 32
 	soundloop = null
 	temperature_change = 0
 
 /obj/machinery/light/fueled/wallfire/candle/OnCrafted(dirin, mob/user)
-	pixel_x = base_pixel_x
-	pixel_y = base_pixel_y
+	pixel_x = 0
+	pixel_y = 0
 	switch(dirin)
 		if(NORTH)
-			pixel_y += 32
+			pixel_y = 32
 		if(SOUTH)
-			pixel_y -= 32
+			pixel_y = -32
 		if(EAST)
-			pixel_x += 32
+			pixel_x = 32
 		if(WEST)
-			pixel_x -= 32
-	return ..()
+			pixel_x = -32
+	. = ..()
 
 /obj/machinery/light/fueled/wallfire/candle/attack_hand(mob/user)
 	if(isliving(user) && on)
@@ -157,10 +158,11 @@
 	. = ..()
 
 /obj/machinery/light/fueled/wallfire/candle/r
-	SET_BASE_PIXEL(32, 0)
-
+	pixel_y = 0
+	pixel_x = 32
 /obj/machinery/light/fueled/wallfire/candle/l
-	SET_BASE_PIXEL(-32, 0)
+	pixel_y = 0
+	pixel_x = -32
 
 /obj/machinery/light/fueled/wallfire/candle/blue
 	bulb_colour = "#8d73ff"
@@ -174,10 +176,11 @@
 	return FALSE
 
 /obj/machinery/light/fueled/wallfire/candle/blue/r
-	SET_BASE_PIXEL(32, 0)
-
+	pixel_y = 0
+	pixel_x = 32
 /obj/machinery/light/fueled/wallfire/candle/blue/l
-	SET_BASE_PIXEL(-32, 0)
+	pixel_y = 0
+	pixel_x = -32
 
 /obj/machinery/light/fueled/wallfire/candle/skull
 	bulb_colour = "#8d73ff"
@@ -191,20 +194,22 @@
 	return FALSE
 
 /obj/machinery/light/fueled/wallfire/candle/skull/r
-	SET_BASE_PIXEL(32, 0)
+	pixel_y = 0
+	pixel_x = 32
 
 /obj/machinery/light/fueled/wallfire/candle/skull/l
-	SET_BASE_PIXEL(-32, 0)
+	pixel_y = 0
+	pixel_x = -32
 
 /obj/machinery/light/fueled/wallfire/candle/weak
 	light_power = 0.9
 	light_outer_range =  6
-
 /obj/machinery/light/fueled/wallfire/candle/weak/l
-	SET_BASE_PIXEL(-32, 0)
-
+	pixel_x = -32
+	pixel_y = 0
 /obj/machinery/light/fueled/wallfire/candle/weak/r
-	SET_BASE_PIXEL(32, 0)
+	pixel_x = 32
+	pixel_y = 0
 
 /*	.............   Candle lamp   ................ */
 /obj/machinery/light/fueled/wallfire/candle/lamp // cant get them to start unlit but they work as is
@@ -232,7 +237,7 @@
 	var/shows_empty = TRUE
 
 /obj/machinery/light/fueled/torchholder/c
-	SET_BASE_PIXEL(0, 32)
+	pixel_y = 32
 
 /obj/machinery/light/fueled/torchholder/r
 	dir = WEST
@@ -279,8 +284,9 @@
 	return ..()
 
 /obj/machinery/light/fueled/torchholder/OnCrafted(dirin, user)
+	dir = turn(dirin, 180)
 	if(dir == SOUTH)
-		pixel_y = base_pixel_y + 32
+		pixel_y = 32
 	QDEL_NULL(torchy)
 	. = ..()
 
@@ -369,7 +375,8 @@
 	icon = 'icons/roguetown/misc/tallwide.dmi'
 	density = FALSE
 	brightness = 10
-	SET_BASE_PIXEL(-10, -10)
+	pixel_x = -10
+	pixel_y = -10
 	layer = 2.0
 	fueluse = 0
 	soundloop = null
@@ -449,14 +456,14 @@
 		return
 	if(istype(attachment, /obj/item/cooking/pan) || istype(attachment, /obj/item/reagent_containers/glass/bucket/pot) || istype(attachment, /obj/item/reagent_containers/glass/bottle/teapot))
 		var/obj/item/I = attachment
-		I.pixel_x = I.base_pixel_x
-		I.pixel_y = I.base_pixel_y
+		I.pixel_x = 0
+		I.pixel_y = 0
 		. += new /mutable_appearance(I)
 		if(!food)
 			return
 		I = food
-		I.pixel_x = I.pixel_x
-		I.pixel_y = I.pixel_y
+		I.pixel_x = 0
+		I.pixel_y = 0
 		. += new /mutable_appearance(I)
 
 /obj/machinery/light/fueled/hearth/attack_hand(mob/user)

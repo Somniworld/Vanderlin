@@ -54,6 +54,7 @@
 
 	if(!CONFIG_GET(flag/disable_human_mood))
 		AddComponent(/datum/component/mood)
+	AddComponent(/datum/component/personal_crafting)
 	AddElement(/datum/element/footstep, footstep_type, 1, -6)
 	GLOB.human_list += src
 	if(ai_controller && flee_in_pain)
@@ -114,9 +115,10 @@
 	if(!client)
 		return
 	if(mind)
-		if(clan)
+		var/datum/antagonist/vampire/VD = mind.has_antag_datum(/datum/antagonist/vampire)
+		if(VD)
 			if(statpanel("Stats"))
-				stat("Vitae:",bloodpool)
+				stat("Vitae:",VD.vitae)
 	return
 
 /mob/living/carbon/human/show_inv(mob/user)
@@ -409,7 +411,6 @@
 					hud_used.bloods.icon_state = "dam[used]"
 				else
 					hud_used.bloods.icon_state = "damelse"
-			SEND_SIGNAL(src, COMSIG_MOB_HEALTHHUD_UPDATE, hud_used.bloods.icon_state)
 
 		if(hud_used.stamina)
 			if(stat != DEAD)
@@ -564,14 +565,14 @@
 			if(l_grab.grabbed == target)
 				backnotshoulder = TRUE
 
-	if(can_be_firemanned(target) && !incapacitated(IGNORE_GRAB))
+	if(can_be_firemanned(target) && !incapacitated(FALSE, TRUE))
 		if(backnotshoulder)
 			visible_message("<span class='notice'>[src] starts lifting [target] onto their back...</span>")
 		else
 			visible_message("<span class='notice'>[src] starts lifting [target] onto their shoulder...</span>")
 		if(do_after(src, carrydelay, target))
 			//Second check to make sure they're still valid to be carried
-			if(can_be_firemanned(target) && !incapacitated(IGNORE_GRAB))
+			if(can_be_firemanned(target) && !incapacitated(FALSE, TRUE))
 				buckle_mob(target, TRUE, TRUE, 90, 0, 0)
 				return
 	to_chat(src, "<span class='warning'>I fail to carry [target].</span>")
@@ -581,7 +582,7 @@
 		visible_message("<span class='notice'>[target] starts to climb onto [src]...</span>")
 		if(do_after(target, 1.5 SECONDS, src))
 			if(can_piggyback(target))
-				if(target.incapacitated(IGNORE_GRAB) || incapacitated(IGNORE_GRAB))
+				if(target.incapacitated(FALSE, TRUE) || incapacitated(FALSE, TRUE))
 					to_chat(target, "<span class='warning'>I can't piggyback ride [src].</span>")
 					return
 				buckle_mob(target, TRUE, TRUE, FALSE, 0, 0)
@@ -717,7 +718,7 @@
 	has_stubble = target.has_stubble
 	headshot_link = target.headshot_link
 	flavortext = target.flavortext
-	bloodpool = target.bloodpool
+	vitae_pool = target.vitae_pool
 
 	var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 	if(!isnull(target_head))
@@ -806,17 +807,3 @@
 		return TRUE
 
 	return FALSE
-
-/mob/living/carbon/human/Logout()
-	. = ..()
-
-	var/datum/job/role = mind?.assigned_role
-
-	if(role?.type in MESSAGE_ADMINS_ROLES)
-		addtimer(CALLBACK(src, PROC_REF(notify_admins_of_disconnect)), 30 SECONDS)
-
-/mob/living/carbon/human/proc/notify_admins_of_disconnect()
-	if(client)
-		return
-
-	message_admins("[src] is a [mind.assigned_role.get_informed_title(src)] and has been disconnected for more than 30 seconds!")

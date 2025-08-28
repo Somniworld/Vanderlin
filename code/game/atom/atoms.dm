@@ -89,13 +89,6 @@
 	///AI controller that controls this atom. type on init, then turned into an instance during runtime
 	var/datum/ai_controller/ai_controller
 
-	///Default pixel x shifting for the atom's icon.
-	var/base_pixel_x = 0
-	///Default pixel y shifting for the atom's icon.
-	var/base_pixel_y = 0
-	///Used for changing icon states for different base sprites.
-	var/base_icon_state
-
 	///The config type to use for greyscaled sprites. Both this and greyscale_colors must be assigned to work.
 	var/greyscale_config
 	///A string of hex format colors to be used by greyscale sprites, ex: "#0054aa#badcff"
@@ -278,9 +271,6 @@
 /atom/proc/handle_ricochet(obj/projectile/P)
 	return
 
-/atom/proc/get_explosion_resistance()
-	return 0
-
 ///Can the mover object pass this atom, while heading for the target turf
 /atom/proc/CanPass(atom/movable/mover, turf/target)
 	SHOULD_CALL_PARENT(TRUE)
@@ -351,7 +341,7 @@
  *
  * Otherwise it simply forceMoves the atom into this atom
  */
-/atom/proc/CheckParts(list/parts_list)
+/atom/proc/CheckParts(list/parts_list, datum/crafting_recipe/R)
 	for(var/A in parts_list)
 		if(istype(A, /datum/reagent))
 			if(!reagents)
@@ -366,8 +356,12 @@
 			else
 				M.forceMove(src)
 
-/obj/item/CheckParts(list/parts_list)
+/obj/item/CheckParts(list/parts_list, datum/crafting_recipe/R)
 	..()
+	if(R)
+		if(R.sellprice)
+			sellprice = R.sellprice
+			randomize_price()
 
 ///Hook for multiz???
 /atom/proc/update_multiz(prune_on_fail = FALSE)
@@ -499,7 +493,7 @@
 				. += "It's empty."
 		else if(reagents.flags & AMOUNT_VISIBLE)
 			if(reagents.total_volume)
-				. += "<span class='notice'>It has [round(reagents.total_volume / 3, 0.1)] oz left.</span>"
+				. += "<span class='notice'>It has [round(reagents.total_volume / 3)] oz left.</span>"
 			else
 				. += "<span class='danger'>It's empty.</span>"
 		//SNIFFING
@@ -1400,24 +1394,3 @@
 			if(!start.CanAtmosPass(adj))
 				continue
 			_propagate_turf_heat(source, adj, key, next_value, next_weight, falloff, max_depth, depth + 1, seen)
-
-///Setter for the `base_pixel_x` variable to append behavior related to its changing.
-/atom/proc/set_base_pixel_x(new_value)
-	if(base_pixel_x == new_value)
-		return
-	. = base_pixel_x
-	base_pixel_x = new_value
-	pixel_x = pixel_x + base_pixel_x - .
-
-///Setter for the `base_pixel_y` variable to append behavior related to its changing.
-/atom/proc/set_base_pixel_y(new_value)
-	if(base_pixel_y == new_value)
-		return
-	. = base_pixel_y
-	base_pixel_y = new_value
-	pixel_y = pixel_y + base_pixel_y - .
-
-/// Returns the indice in filters of the given filter name.
-/// If it is not found, returns null.
-/atom/proc/get_filter_index(name)
-	return filter_data?.Find(name)

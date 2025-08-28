@@ -86,7 +86,6 @@
 			H.add_splatter_floor()
 			H.adjustBruteLoss(20)
 			to_chat(user, span_notice("I finish pulling the heart from [H]!"))
-	. = ..()
 
 #undef GOREFEAST_UNWORTHY
 #undef GOREFEAST_WORTHY
@@ -241,7 +240,8 @@
 	icon_state = "turbulenta"
 	base_icon = "turbulenta"
 	slot_flags = ITEM_SLOT_BACK
-	SET_BASE_PIXEL(-16, -16)
+	pixel_y = -16
+	pixel_x = -16
 	bigboy = TRUE
 	dropshrink = 0.75
 	fire_sound = 'sound/combat/Ranged/turbulentafire.ogg'

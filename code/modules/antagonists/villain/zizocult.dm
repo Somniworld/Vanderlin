@@ -19,7 +19,6 @@ GLOBAL_LIST_EMPTY(ritualslist)
 	innate_traits = list(
 		TRAIT_STEELHEARTED,
 		TRAIT_VILLAIN,
-		TRAIT_CABAL,
 	)
 
 /datum/antagonist/zizocultist/zizo_knight
@@ -36,7 +35,6 @@ GLOBAL_LIST_EMPTY(ritualslist)
 		TRAIT_NOMOOD,
 		TRAIT_VILLAIN,
 		TRAIT_CRITICAL_RESISTANCE,
-		TRAIT_CABAL,
 	)
 
 #define iszizolackey(A) (A.mind?.has_antag_datum(/datum/antagonist/zizocultist))
@@ -430,7 +428,7 @@ GLOBAL_LIST_EMPTY(ritualslist)
 /mob/living/carbon/human/proc/draw_sigil()
 	set name = "Draw Sigil"
 	set category = "ZIZO"
-	if(incapacitated(IGNORE_GRAB) || stat >= UNCONSCIOUS)
+	if(incapacitated(ignore_grab = TRUE) || stat >= UNCONSCIOUS)
 		return
 
 	var/list/runes = list("Servantry", "Transmutation", "Fleshcrafting")

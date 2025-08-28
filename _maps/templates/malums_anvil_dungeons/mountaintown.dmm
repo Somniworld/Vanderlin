@@ -504,11 +504,6 @@
 	},
 /turf/open/floor/naturalstone,
 /area/rogue/under/mountains/anvil/dungeon)
-"fg" = (
-/obj/item/explosive/bottle,
-/obj/structure/closet/crate/chest,
-/turf/open/floor/ruinedwood/darker,
-/area/rogue/under/mountains/anvil/dungeon/lower)
 "fh" = (
 /obj/structure/closet/crate/coffin,
 /obj/item/clothing/gloves/plate,
@@ -520,16 +515,6 @@
 	},
 /turf/open/floor/churchrough,
 /area/rogue/under/mountains/anvil/dungeon/lower)
-"fo" = (
-/obj/structure/closet/crate/crafted_closet/inn,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/turf/open/floor/ruinedwood/spiralfade,
-/area/rogue/under/mountains/anvil/dungeon)
 "fy" = (
 /obj/structure/door,
 /obj/effect/mapping_helpers/access/locker,
@@ -675,6 +660,16 @@
 	},
 /turf/open/floor/naturalstone,
 /area/rogue/under/mountains/anvil/dungeon/lower)
+"hD" = (
+/obj/structure/closet/crate/crafted_closet/inn,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/pants/tights/random,
+/obj/item/clothing/pants/tights/random,
+/obj/item/clothing/pants/tights/random,
+/turf/open/floor/ruinedwood/spiralfade,
+/area/rogue/under/mountains/anvil/dungeon)
 "hF" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 10
@@ -738,6 +733,14 @@
 /obj/structure/door/violet,
 /turf/open/floor/churchrough,
 /area/rogue/under/mountains/anvil/dungeon/lower)
+"iS" = (
+/obj/structure/closet/crate/crafted_closet/inn,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/pants/tights/random,
+/obj/item/clothing/pants/tights/random,
+/turf/open/floor/wood/nosmooth,
+/area/rogue/under/mountains/anvil/dungeon)
 "iU" = (
 /obj/structure/door/iron/bars,
 /turf/open/floor/ruinedwood,
@@ -963,16 +966,6 @@
 /obj/item/weapon/pick/paxe,
 /turf/open/floor/herringbone,
 /area/rogue/under/mountains/anvil/dungeon/lower)
-"mP" = (
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/turf/open/floor/ruinedwood/spiralfade,
-/area/rogue/under/mountains/anvil/dungeon)
 "mQ" = (
 /turf/closed/wall/mineral/decostone{
 	priority_overlays = 1
@@ -1400,6 +1393,11 @@
 	},
 /turf/open/water,
 /area/rogue/under/mountains/anvil/dungeon/lower)
+"sM" = (
+/obj/item/bomb,
+/obj/structure/closet/crate/chest,
+/turf/open/floor/ruinedwood/darker,
+/area/rogue/under/mountains/anvil/dungeon/lower)
 "sT" = (
 /obj/item/natural/stone{
 	pixel_y = -1;
@@ -1814,6 +1812,16 @@
 	},
 /obj/structure/chair/bench/church/r,
 /turf/open/floor/churchmarble,
+/area/rogue/under/mountains/anvil/dungeon)
+"yU" = (
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/pants/tights/random,
+/obj/item/clothing/pants/tights/random,
+/obj/item/clothing/pants/tights/random,
+/turf/open/floor/ruinedwood/spiralfade,
 /area/rogue/under/mountains/anvil/dungeon)
 "yV" = (
 /obj/structure/rack,
@@ -2269,14 +2277,6 @@
 /area/rogue/under/mountains/anvil/dungeon/lower)
 "FI" = (
 /turf/closed/wall/mineral/stonebrick,
-/area/rogue/under/mountains/anvil/dungeon)
-"FK" = (
-/obj/structure/closet/crate/crafted_closet/inn,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/obj/item/clothing/pants/tights/colored/random,
-/turf/open/floor/wood/nosmooth,
 /area/rogue/under/mountains/anvil/dungeon)
 "FT" = (
 /obj/effect/decal/cleanable/blood/tracks{
@@ -2861,15 +2861,6 @@
 	},
 /turf/open/floor/churchrough,
 /area/rogue/under/mountains/anvil/dungeon/lower)
-"OH" = (
-/obj/structure/closet/crate/crafted_closet/inn/south{
-	name = "closet"
-	},
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/shirt/undershirt/colored/random,
-/obj/item/clothing/cloak/apron/brown,
-/turf/open/floor/ruinedwood/spiralfade,
-/area/rogue/under/mountains/anvil/dungeon)
 "OI" = (
 /mob/living/carbon/human/species/goblin/npc/ambush,
 /turf/open/floor/metal,
@@ -3023,6 +3014,15 @@
 /obj/effect/decal/cleanable/blood/gibs/limb,
 /turf/open/floor/naturalstone,
 /area/rogue/under/mountains/anvil/dungeon/lower)
+"Ru" = (
+/obj/structure/closet/crate/crafted_closet/inn/south{
+	name = "closet"
+	},
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/shirt/undershirt/random,
+/obj/item/clothing/cloak/apron/brown,
+/turf/open/floor/ruinedwood/spiralfade,
+/area/rogue/under/mountains/anvil/dungeon)
 "Rv" = (
 /obj/effect/decal/cleanable/blood/splatter,
 /obj/item/ammo_casing/caseless/dart,
@@ -6257,7 +6257,7 @@ vs
 vs
 gW
 YD
-fg
+sM
 UD
 UD
 fZ
@@ -10211,7 +10211,7 @@ go
 go
 go
 eU
-OH
+Ru
 go
 go
 go
@@ -10334,8 +10334,8 @@ gN
 gN
 IX
 iF
-fo
-mP
+hD
+yU
 Cm
 eU
 rD
@@ -11547,7 +11547,7 @@ qN
 xF
 FV
 FV
-FK
+iS
 FU
 dD
 dD

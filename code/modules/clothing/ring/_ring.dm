@@ -11,4 +11,3 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	dropshrink = 0.8
 	item_weight = 0.5
-	abstract_type = /obj/item/clothing/ring

@@ -43,10 +43,8 @@
 /mob/living/proc/init_faith()
 	patron = GLOB.patronlist[/datum/patron/godless]
 
-/mob/living/proc/set_patron(datum/patron/new_patron, check_antag = FALSE)
+/mob/living/proc/set_patron(datum/patron/new_patron)
 	if(!new_patron)
-		return FALSE
-	if(check_antag && mind?.special_role)
 		return FALSE
 	if(ispath(new_patron))
 		new_patron = GLOB.patronlist[new_patron]

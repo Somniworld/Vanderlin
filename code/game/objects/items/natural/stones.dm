@@ -154,7 +154,7 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 /obj/item/natural/stone/on_consume(mob/living/eater)
 	if(!magic_power)
 		return
-	eater.adjust_spell_points(magic_power * 0.1)
+	eater.spell_points += magic_power * 0.1
 	eater.mana_pool?.adjust_mana(magic_power * 25)
 	to_chat(eater, span_warning("I feel magic flowing from my stomach."))
 
@@ -366,12 +366,12 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	if(!disassembled)
 		if(mineralType && mineralAmt)
 			if(has_world_trait(/datum/world_trait/malum_diligence))
-				mineralAmt += is_ascendant(MALUM) ? rand (2,3) : rand(1,2)
+				mineralAmt += rand(1,2)
 			new mineralType(src.loc, mineralAmt)
 		for(var/i in 1 to rand(1,3))
 			var/obj/item/S = new /obj/item/natural/stone(src.loc)
-			S.pixel_x = S.base_pixel_x + rand(25,-25)
-			S.pixel_y = S.base_pixel_y + rand(25,-25)
+			S.pixel_x = rand(25,-25)
+			S.pixel_y = rand(25,-25)
 		record_round_statistic(STATS_ROCKS_MINED)
 	qdel(src)
 

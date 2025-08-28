@@ -12,4 +12,3 @@
 
 //Placing behavior of rotation contraption items
 #define PLACE_TOWARDS_USER	1
-#define PLACE_ON_PIPE 2

@@ -4,7 +4,8 @@
 	name = "supply pod" //Names and descriptions are normally created with the setStyle() proc during initialization, but we have these default values here as a failsafe
 	desc = ""
 	icon_state = "supplypod"
-	SET_BASE_PIXEL(-16, -5)
+	pixel_x = -16 //2x2 sprite
+	pixel_y = -5
 	layer = TABLE_LAYER //So that the crate inside doesn't appear underneath
 	allow_objects = TRUE
 	allow_dense = TRUE
@@ -246,7 +247,8 @@
 //------------------------------------FALLING SUPPLY POD-------------------------------------//
 /obj/effect/DPfall //Falling pod
 	name = ""
-	SET_BASE_PIXEL(-16, -5)
+	pixel_x = -16
+	pixel_y = -5
 	pixel_z = 200
 	desc = ""
 	layer = FLY_LAYER//that wasnt flying, that was falling with style!
@@ -254,6 +256,8 @@
 
 /obj/effect/DPfall/Initialize(dropLocation, obj/structure/closet/supplypod/pod)
 	if (pod.style == STYLE_SEETHROUGH)
+		pixel_x = -16
+		pixel_y = 0
 		for (var/atom/movable/O in pod.contents)
 			var/icon/I = getFlatIcon(O) //im so sorry
 			add_overlay(I)

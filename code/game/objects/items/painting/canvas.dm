@@ -107,8 +107,8 @@
 		return
 	user.dropItemToGround(src)
 	forceMove(T)
-	pixel_x = base_pixel_x
-	pixel_y = base_pixel_y
+	pixel_x = 0
+	pixel_y = 0
 	anchored = TRUE
 	to_chat(user, "I mount [src] to [T].")
 

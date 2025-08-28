@@ -43,10 +43,10 @@
 	shoes = /obj/item/clothing/shoes/shalal
 	gloves = /obj/item/clothing/gloves/angle
 	belt = /obj/item/storage/belt/leather/shalal
-	shirt = /obj/item/clothing/shirt/undershirt/colored/red
+	shirt = /obj/item/clothing/shirt/undershirt/red
 	armor = /obj/item/clothing/armor/leather/splint
 	backl = /obj/item/storage/backpack/satchel
-	head = /obj/item/clothing/neck/keffiyeh/colored/red
+	head = /obj/item/clothing/neck/keffiyeh/red
 	backpack_contents = list(/obj/item/storage/belt/pouch/coins/poor, /obj/item/lockpick)
 	if(!H.has_language(/datum/language/zalad))
 		H.grant_language(/datum/language/zalad)

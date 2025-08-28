@@ -57,7 +57,7 @@
 			qdel(node)
 			return
 
-		user.adjust_spell_points(cost, TRUE)
+		user.used_spell_points += cost
 		unlocked_spells += spell_type
 
 		if(node.is_passive)
@@ -65,7 +65,7 @@
 			to_chat(user, span_notice("You have learned the passive technique: [node.name]"))
 		else
 			if(node.spell_type)
-				user.add_spell(node.spell_type, override = TRUE)
+				user.add_spell(node.spell_type, silent = FALSE)
 			to_chat(usr, span_notice("You have learned the spell: [node.name]"))
 
 		selected_spell = node

@@ -19,11 +19,9 @@
 		real_name = name
 	faction += "[REF(src)]"
 	GLOB.mob_living_list += src
-	AddElement(/datum/element/movetype_handler)
 	init_faith()
 	if(has_reflection)
 		create_reflection()
-	recalculate_stats()
 
 /mob/living/Destroy()
 	if(FACTION_MATTHIOS in faction)
@@ -39,8 +37,6 @@
 	if(buckled)
 		buckled.unbuckle_mob(src,force=1)
 
-	stop_offering_item()
-
 	GLOB.mob_living_list -= src
 	for(var/datum/soullink/S as anything in ownedSoullinks)
 		S.ownerDies(FALSE)
@@ -50,6 +46,8 @@
 		S.sharerDies(FALSE)
 		S.removeSoulsharer(src) //If a sharer is destroy()'d, they are simply removed
 	sharedSoullinks = null
+	if(craftingthing)
+		QDEL_NULL(craftingthing)
 	return ..()
 
 /mob/living/update_appearance(updates)
@@ -624,9 +622,15 @@
 
 //same as above
 /mob/living/pointed(atom/A as mob|obj|turf in view(client.view, src))
-	if(incapacitated(IGNORE_GRAB))
+	if(incapacitated(ignore_grab = TRUE))
 		return FALSE
 	return ..()
+
+/mob/living/_pointed(atom/pointing_at)
+	if(!..())
+		return FALSE
+	log_message("points at [pointing_at]", LOG_EMOTE)
+	visible_message("<span class='infoplain'>[span_name("[src]")] points at [pointing_at].</span>", span_notice("You point at [pointing_at]."))
 
 
 /mob/living/verb/succumb(whispered as null, reaper as null)
@@ -647,30 +651,9 @@
 //			to_chat(src, "<span class='userdanger'>I have given up life and succumbed to death.</span>")
 		death()
 
-/**
- * Checks if a mob is incapacitated
- *
- * Normally being restrained, agressively grabbed, or in stasis counts as incapacitated
- * unless there is a flag being used to check if it's ignored
- *
- * args:
- * * flags (optional) bitflags that determine if special situations are exempt from being considered incapacitated
- *
- * bitflags: (see code/__DEFINES/status_effects.dm)
- * * IGNORE_RESTRAINTS - mob in a restraint (handcuffs) is not considered incapacitated
- * * IGNORE_STASIS - mob in stasis (stasis bed, etc.) is not considered incapacitated
- * * IGNORE_GRAB - mob that is agressively grabbed is not considered incapacitated
-**/
-/mob/living/incapacitated(flags)
-	if(HAS_TRAIT(src, TRAIT_INCAPACITATED))
+/mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = FALSE, ignore_stasis = FALSE)
+	if(HAS_TRAIT(src, TRAIT_INCAPACITATED) || (!ignore_restraints && (HAS_TRAIT(src, TRAIT_RESTRAINED) || (!ignore_grab && pulledby && (pulledby != src) && pulledby.grab_state >= GRAB_AGGRESSIVE))))
 		return TRUE
-	if(!(flags & IGNORE_RESTRAINTS) && HAS_TRAIT(src, TRAIT_RESTRAINED))
-		return TRUE
-	if(!(flags & IGNORE_GRAB) && pulledby && (pulledby != src) && pulledby.grab_state >= GRAB_AGGRESSIVE)
-		return TRUE
-	if(!(flags & IGNORE_STASIS) && HAS_TRAIT(src, TRAIT_STASIS))
-		return TRUE
-	return FALSE
 
 /mob/living/canUseStorage()
 	if (num_hands <= 0)
@@ -701,6 +684,7 @@
 	else
 		if(alert(src, "You sure you want to sleep for a while?", "Sleep", "Yes", "No") == "Yes")
 			SetSleeping(400) //Short nap
+	// update_mobility()
 
 /mob/proc/get_contents()
 	return
@@ -795,8 +779,8 @@
 		if(body_position == LYING_DOWN)
 			set_resting(TRUE, silent = TRUE)
 		return
-	set_body_position(STANDING_UP)
 	set_lying_angle(0)
+	set_body_position(STANDING_UP)
 
 /mob/living/proc/rest_checks_callback()
 	if(resting || body_position == STANDING_UP || HAS_TRAIT(src, TRAIT_FLOORED) || pulledby)
@@ -810,10 +794,11 @@
 /mob/living/proc/on_lying_down(new_lying_angle)
 	if(layer == initial(layer)) //to avoid things like hiding larvas.
 		layer = LYING_MOB_LAYER //so mob lying always appear behind standing mobs
+	// ADD_TRAIT(src, TRAIT_UI_BLOCKED, LYING_DOWN_TRAIT)
+	// ADD_TRAIT(src, TRAIT_PULL_BLOCKED, LYING_DOWN_TRAIT)
 	density = FALSE // We lose density and stop bumping passable dense things.
 	if(HAS_TRAIT(src, TRAIT_FLOORED) && !(dir & (NORTH|SOUTH)))
 		setDir(pick(NORTH, SOUTH)) // We are and look helpless.
-	body_position_pixel_y_offset = PIXEL_Y_OFFSET_LYING
 	update_wallpress()
 
 /// Proc to append behavior related to lying down.
@@ -821,7 +806,8 @@
 	if(layer == LYING_MOB_LAYER)
 		layer = initial(layer)
 	density = initial(density) // We were prone before, so we become dense and things can bump into us again.
-	body_position_pixel_y_offset = 0
+	// REMOVE_TRAIT(src, TRAIT_UI_BLOCKED, LYING_DOWN_TRAIT)
+	// REMOVE_TRAIT(src, TRAIT_PULL_BLOCKED, LYING_DOWN_TRAIT)
 
 //Recursive function to find everything a mob is holding. Really shitty proc tbh, you should use get_all_gear for carbons.
 /mob/living/get_contents()
@@ -938,6 +924,7 @@
 	slurring = 0
 	jitteriness = 0
 	slowdown = 0
+	// update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 
 //proc called by revive(), to check if we can actually ressuscitate the mob (we don't want to revive him and have him instantly die again)
@@ -1086,7 +1073,7 @@
 		return pick("trails_1", "trails_2")
 
 /mob/living/can_resist()
-	return !((next_move > world.time) || incapacitated(IGNORE_RESTRAINTS|IGNORE_STASIS))
+	return !((next_move > world.time) || incapacitated(ignore_restraints = TRUE, ignore_stasis = TRUE))
 
 /mob/living/verb/resist()
 	set name = "Resist"
@@ -1334,9 +1321,9 @@
 
 	// Height advantage (standing vs lying)
 	if(body_position != LYING_DOWN && target.body_position == LYING_DOWN)
-		modifier += 0.35
+		modifier += 0.2
 	else if(body_position == LYING_DOWN && target.body_position != LYING_DOWN)
-		modifier -= 0.35
+		modifier -= 0.2
 
 	if(ishuman(src))
 		var/mob/living/carbon/human/human = src
@@ -1382,7 +1369,6 @@
 	. = TRUE
 
 	if(HAS_TRAIT(src, TRAIT_RESTRAINED))
-		to_chat(src, span_warning("I'm restrained!"))
 		return
 
 	if(!MOBTIMER_FINISHED(pulledby, MT_RESIST_GRAB, 2 SECONDS))
@@ -1524,6 +1510,21 @@
 /mob/living/proc/get_visible_name()
 	return name
 
+/mob/living/float(on)
+	if(throwing)
+		return
+	var/fixed = 0
+	if(anchored || (buckled && buckled.anchored))
+		fixed = 1
+	if(on && !(movement_type & FLOATING) && !fixed)
+		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
+		sleep(10)
+		animate(src, pixel_y = pixel_y - 2, time = 10, loop = -1)
+		setMovetype(movement_type | FLOATING)
+	else if(((!on || fixed) && (movement_type & FLOATING)))
+		animate(src, pixel_y = get_standard_pixel_y_offset(lying_angle), time = 10)
+		setMovetype(movement_type & ~FLOATING)
+
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
 /mob/living/stripPanelUnequip(obj/item/what, mob/who, where)
@@ -1551,17 +1552,13 @@
 
 	if(!who.Adjacent(src))
 		return
-	if(!enhanced_strip)
-		who.visible_message("<span class='warning'>[src] tries to remove [who]'s [what.name].</span>", \
-						"<span class='danger'>[src] tries to remove my [what.name].</span>", null, null, src)
+
+	who.visible_message("<span class='warning'>[src] tries to remove [who]'s [what.name].</span>", \
+					"<span class='danger'>[src] tries to remove my [what.name].</span>", null, null, src)
 	to_chat(src, "<span class='danger'>I try to remove [who]'s [what.name]...</span>")
 	what.add_fingerprint(src)
-	var/strip_delayed = what.strip_delay
-	if(enhanced_strip)
-		strip_delayed = 0.1 SECONDS
-	if(do_after(src, strip_delayed * surrender_mod, who))
-		if(what && (Adjacent(who) || (enhanced_strip && (get_dist(src, who) <= 3))))
-			enhanced_strip = FALSE
+	if(do_after(src, what.strip_delay * surrender_mod, who))
+		if(what && Adjacent(who))
 			if(islist(where))
 				var/list/L = where
 				if(what == who.get_item_for_held_index(L[2]))
@@ -1618,24 +1615,27 @@
 	var/amplitude = min(4, (jitteriness/100) + 1)
 	var/pixel_x_diff = rand(-amplitude, amplitude)
 	var/pixel_y_diff = rand(-amplitude/3, amplitude/3)
-	animate(src, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = 2, loop = 6, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
-	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = 2, flags = ANIMATION_RELATIVE)
+	var/final_pixel_x = get_standard_pixel_x_offset(lying_angle)
+	var/final_pixel_y = get_standard_pixel_y_offset(lying_angle)
+	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff , time = 2, loop = 6)
+	animate(pixel_x = final_pixel_x , pixel_y = final_pixel_y , time = 2)
+	setMovetype(movement_type & ~FLOATING) // If we were without gravity, the bouncing animation got stopped, so we make sure to restart it in next life().
 
-/mob/living/proc/get_standard_pixel_x_offset()
-	var/_x = base_pixel_x
+/mob/living/proc/get_standard_pixel_x_offset(lying = 0)
+	var/_x = initial(pixel_x)
 	for(var/o in mob_offsets)
 		if(mob_offsets[o])
 			if(mob_offsets[o]["x"])
 				_x = _x + mob_offsets[o]["x"]
-	return _x + body_position_pixel_x_offset
+	return _x
 
-/mob/living/proc/get_standard_pixel_y_offset()
-	var/_y = base_pixel_y
+/mob/living/proc/get_standard_pixel_y_offset(lying = 0)
+	var/_y = initial(pixel_y)
 	for(var/o in mob_offsets)
 		if(mob_offsets[o])
 			if(mob_offsets[o]["y"])
 				_y = _y + mob_offsets[o]["y"]
-	return _y + body_position_pixel_y_offset
+	return _y
 
 /mob/living/cancel_camera()
 	..()
@@ -1734,121 +1734,16 @@
 	stop_pulling()
 	. = ..()
 
-// Used in polymorph code to shapeshift mobs into other creatures
-/**
- * Polymorphs our mob into another mob.
- * If successful, our current mob is qdeleted!
- *
- * what_to_randomize - what are we randomizing the mob into? See the defines for valid options.
- * change_flags - only used for humanoid randomization (currently), what pool of changeflags should we draw from?
- *
- * Returns a mob (what our mob turned into) or null (if we failed).
- */
-/mob/living/proc/wabbajack(what_to_randomize, change_flags = WABBAJACK)
-	if(stat == DEAD || (status_flags & GODMODE) || HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
-		return
-
-	if(SEND_SIGNAL(src, COMSIG_LIVING_PRE_WABBAJACKED, what_to_randomize) & STOP_WABBAJACK)
-		return
-
-	add_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED, TRAIT_NO_TRANSFORM), MAGIC_TRAIT)
-	icon = null
-	cut_overlays()
-	invisibility = INVISIBILITY_ABSTRACT
-
-	var/list/item_contents = list()
-
-	for(var/obj/item/item in src)
-		if(!dropItemToGround(item))
-			qdel(item)
-			continue
-		item_contents += item
-
-	var/mob/living/new_mob
-
-	var/static/list/possible_results = list(
-		WABBAJACK_HUMAN,
-		WABBAJACK_ANIMAL,
-	)
-
-	// If we weren't passed one, pick a default one
-	what_to_randomize ||= pick(possible_results)
-
-	switch(what_to_randomize)
-
-		if(WABBAJACK_ANIMAL)
-			var/picked_animal = pick(
-				/mob/living/simple_animal/hostile/retaliate/bat,
-				/mob/living/simple_animal/hostile/retaliate/chicken,
-				/mob/living/simple_animal/hostile/retaliate/cow,
-				/mob/living/simple_animal/hostile/retaliate/goat,
-				/mob/living/simple_animal/hostile/retaliate/spider,
-				/mob/living/simple_animal/pet/cat,
-				/mob/living/simple_animal/pet/cat/cabbit,
-			)
-			new_mob = new picked_animal(loc)
-
-		if(WABBAJACK_HUMAN)
-			var/mob/living/carbon/human/new_human = new(loc)
-
-			// 50% chance that we'll also randomice race
-			if(prob(50))
-				var/list/chooseable_races = list()
-				for(var/datum/species/species_type as anything in subtypesof(/datum/species))
-					if(initial(species_type.changesource_flags) & change_flags)
-						chooseable_races += species_type
-
-				if(length(chooseable_races))
-					new_human.set_species(pick(chooseable_races))
-
-			// Randomize everything but the species, which was already handled above.
-			new_human.randomize_human_appearance(~RANDOMIZE_SPECIES)
-			new_human.update_body()
-			new_human.dna.update_dna_identity()
-			new_mob = new_human
-
-		else
-			stack_trace("wabbajack() was called without an invalid randomization choice. ([what_to_randomize])")
-
-	if(!new_mob)
-		return
-
-	to_chat(src, span_hypnophrase(span_big("Your form morphs into that of a [what_to_randomize]!")))
-
-	// And of course, make sure they get policy for being transformed
-	var/poly_msg = get_policy(POLICY_POLYMORPH)
-	if(poly_msg)
-		to_chat(src, poly_msg)
-
-	// Some forms can still wear some items
-	for(var/obj/item/item as anything in item_contents)
-		new_mob.equip_to_appropriate_slot(item)
-
-	// // I don't actually know why we do this
-	// new_mob.set_combat_mode(TRUE)
-
-	// on_wabbajack is where we handle setting up the name,
-	// transfering the mind and observerse, and other miscellaneous
-	// actions that should be done before we delete the original mob.
-	on_wabbajacked(new_mob)
-
-	qdel(src)
-	return new_mob
-
 // Called when we are hit by a bolt of polymorph and changed
 // Generally the mob we are currently in is about to be deleted
-/mob/living/proc/on_wabbajacked(mob/living/new_mob)
-	log_message("became [new_mob.name] ([new_mob.type])", LOG_ATTACK, color = "orange")
-	SEND_SIGNAL(src, COMSIG_LIVING_ON_WABBAJACKED, new_mob)
+/mob/living/proc/wabbajack_act(mob/living/new_mob)
 	new_mob.name = real_name
 	new_mob.real_name = real_name
-	// Transfer mind to the new mob (also handles actions and observers and stuff)
+
 	if(mind)
 		mind.transfer_to(new_mob)
-
-	// Well, no mmind, guess we should try to move a key over
-	else if(key)
-		new_mob.PossessByPlayer(key)
+	else
+		new_mob.key = key
 
 /mob/living/proc/fakefireextinguish()
 	return
@@ -1858,7 +1753,7 @@
 
 //Mobs on Fire
 /mob/living/proc/IgniteMob()
-	if(!ishuman(src) && HAS_TRAIT(src, TRAIT_NOFIRE))
+	if (HAS_TRAIT(src, TRAIT_NOFIRE))
 		return
 	if((fire_stacks > 0 || divine_fire_stacks > 0) && !on_fire)
 		on_fire = TRUE
@@ -2304,8 +2199,8 @@
 /// Proc to append behavior to the condition of being floored. Called when the condition starts.
 /mob/living/proc/on_floored_start()
 	if(body_position == STANDING_UP) //force them on the ground
-		set_body_position(LYING_DOWN)
 		set_lying_angle(pick(90, 270))
+		set_body_position(LYING_DOWN)
 		on_fall()
 
 /// Proc to append behavior to the condition of being floored. Called when the condition ends.
@@ -2326,7 +2221,7 @@
 
 ///Checks if the user is incapacitated or on cooldown.
 /mob/living/proc/can_look_up()
-	return !((next_move > world.time) || incapacitated(IGNORE_RESTRAINTS|IGNORE_GRAB))
+	return !((next_move > world.time) || incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE))
 
 /mob/living/proc/look_around()
 	if(!client)
@@ -2640,143 +2535,91 @@
 /mob/proc/get_punch_dmg()
 	return
 
-/**
- * Get spell instance or null from mob actions with instance or typepath.
- *
- * Args
- * * spell_type - Action instance or typepath
- * * specific - Ignore subtypes
- */
+/// Check if mob knows spell
 /mob/living/proc/get_spell(datum/action/cooldown/spell/spell_type, specific = FALSE)
-	if(QDELETED(src) || !length(actions))
+	if(!length(actions))
 		return
-
-	if(istype(spell_type))
+	if(istype(spell_type, /datum/action/cooldown/spell))
 		spell_type = spell_type.type
-
 	if(!specific)
 		return locate(spell_type) in actions
-
 	for(var/datum/action/cooldown/spell/spell in actions)
 		if(spell.type == spell_type)
 			return spell
 
-/**
- * Add action to mob via typepath or instance, only one spell of each type may be present at a time.
- *
- * Args
- * * spell_type - spell to add, if an instance source is not relevant
- * * silent - whether we give a message
- * * source - target of the action, handles deletion on parent removal
- *			  defaults to src and mind makes it transfer with the mind to new mobs.
- * * override - Replace existing spell if present, instead of returning early
- */
-/mob/living/proc/add_spell(datum/action/cooldown/spell/spell_type, silent = TRUE, source, override = FALSE)
+/// Add a spell to the mob via typepath
+/mob/living/proc/add_spell(datum/action/cooldown/spell/spell_type, silent = TRUE, source, forced = FALSE)
 	if(QDELETED(src))
 		return
-
-	var/datum/action/cooldown/spell = get_spell(spell_type, TRUE)
-	if(spell)
-		if(!override)
-			return
-		QDEL_NULL(spell)
-
-	if(istype(spell_type))
-		spell = spell_type
-	else
-		if(!source)
-			source = src
-		spell = new spell_type(source)
-
+	if(!forced && get_spell(spell_type))
+		return
+	if(!source)
+		source = src
+	var/datum/action/spell = new spell_type(source)
 	if(!silent)
 		to_chat(src, span_nicegreen("I learnt [spell.name]!"))
-
 	spell.Grant(src)
 
 /mob/living/proc/remove_spell(datum/action/cooldown/spell/spell, return_skill_points = FALSE, silent = TRUE)
 	if(QDELETED(src))
 		return
-
-	var/datum/action/cooldown/spell/real_spell = get_spell(spell, TRUE)
+	var/datum/action/cooldown/spell/real_spell = get_spell(spell)
 	if(!real_spell)
 		return
-
 	if(return_skill_points)
 		used_spell_points = max(used_spell_points - real_spell.point_cost, 0)
 		spell_points = max(spell_points + real_spell.point_cost, 0)
 		check_learnspell()
-
 	if(!silent)
 		to_chat(src, span_boldwarning("I forgot [real_spell.name]!"))
-
 	qdel(real_spell)
 
 /**
- * Remove all spells from a mob with the same arguments as single removal
- *
- * Args
- * * return_skill_points - do we return the skillpoints for the spells?
- * * silent - do we notify the player of this change?
- * * source - Instead of removing all spells, remove all spells from this source.
- */
+ * purges all spells known by the mob
+ * Vars:
+ ** return_skill_points - do we return the skillpoints for the spells?
+ ** silent - do we notify the player of this change?
+*/
 /mob/living/proc/remove_spells(return_skill_points = FALSE, silent = TRUE, source)
 	if(QDELETED(src))
 		return
-
-	var/silent_individual = TRUE
-	if(!silent && source)
-		silent_individual = FALSE
-
 	for(var/datum/action/cooldown/spell/spell in actions)
 		if(source && (spell.target != source))
 			continue
-		remove_spell(spell, return_skill_points, silent_individual)
+		remove_spell(spell, return_skill_points, silent)
+	if(!silent)
+		to_chat(src, span_boldwarning("I forget all my spells!"))
 
-	if(!silent && !silent_individual)
-		to_chat(src, span_boldwarning("I forgot all my spells!"))
+/mob/living/proc/purge_all_spellpoints(silent = TRUE)
+	if(QDELETED(src))
+		return
+	spell_points = 0
+	used_spell_points = 0
+	if(!silent)
+		to_chat(src, span_boldwarning("I lose all my spellpoints!"))
 
 /**
  * adjusts the amount of available spellpoints
- *
- * Args
- * * points - amount of points to grant or reduce
- * * used_points - ajust used points
+ * Vars:
+ ** points - amount of points to grant or reduce
 */
-/mob/living/proc/adjust_spell_points(points, used_points = FALSE)
+/mob/living/proc/adjust_spellpoints(points)
 	if(QDELETED(src))
 		return
-
-	if(used_points)
-		used_spell_points += points
-	else
-		spell_points += points
-
+	spell_points += points
 	check_learnspell()
 
-/// Reset spell points and used spell points
-/mob/living/proc/reset_spell_points(silent = TRUE)
-	if(QDELETED(src))
-		return
-
-	spell_points = 0
-	used_spell_points = 0
-
-	if(!silent)
-		to_chat(src, span_boldwarning("I lost all my spellpoints!"))
-
-	check_learnspell()
-
-/// Check if learnspell should be removed or granted
 /mob/living/proc/check_learnspell()
 	if(QDELETED(src))
 		return
-
-	if(get_spell(/datum/action/cooldown/spell/undirected/learn))
+	var/datum/action/cooldown/spell/undirected/learn/spell = LAZYACCESS(actions, /datum/action/cooldown/spell/undirected/learn)
+	if(((spell_points - used_spell_points) > 0))
+		if(!spell)
+			spell = /datum/action/cooldown/spell/undirected/learn
+			add_spell(spell)
 		return
-
-	// Because of kobolds spellpoints can be decimal, but you can't do anything with that if below 1
-	if(floor(spell_points - used_spell_points) > 0)
-		add_spell(/datum/action/cooldown/spell/undirected/learn)
+	if(spell)
+		remove_spell(spell)
 
 /**
  * purges all spells and skills
@@ -2786,61 +2629,4 @@
 /mob/living/proc/purge_combat_knowledge(silent = TRUE)
 	purge_all_skills(silent)
 	remove_spells(silent = silent)
-	reset_spell_points(silent)
-
-/mob/living/proc/offer_item(mob/living/offered_to, obj/offered_item)
-	if(isnull(offered_to) || isnull(offered_item))
-		stack_trace("no offered_to or offered_item in offer_item()")
-		return
-
-	var/time_left = COOLDOWN_TIMELEFT(src, offer_cooldown)
-
-	if(time_left)
-		to_chat(src, span_danger("I must wait [time_left / 10] seconds before offering again."))
-		return FALSE
-
-	offered_item_ref = WEAKREF(offered_item)
-	visible_message(
-		span_notice("[src] offers [offered_item] to [offered_to] with an outstreched hand."),
-		span_notice("I offer [offered_item] to [offered_to] with an outstreched hand."), ignored_mobs = list(src), vision_distance = COMBAT_MESSAGE_RANGE
-	)
-	to_chat(offered_to, span_notice("[offered_to] offers [offered_item] to me..."))
-
-	new /obj/effect/temp_visual/offered_item_effect(get_turf(src), offered_item, src, offered_to)
-
-/mob/living/proc/cancel_offering_item()
-	var/obj/offered_item = offered_item_ref?.resolve()
-	if(isnull(offered_item))
-		stop_offering_item()
-		return
-	visible_message(
-		span_notice("[src] puts their hand back down."),
-		span_notice("I stop offering [offered_item ? offered_item : "the item"]."),
-	)
-	stop_offering_item()
-
-/mob/living/proc/stop_offering_item()
-	COOLDOWN_START(src, offer_cooldown, 1 SECONDS)
-	SEND_SIGNAL(src, COMSIG_LIVING_STOPPED_OFFERING_ITEM)
-	offered_item_ref = null
-	update_a_intents()
-
-/mob/living/proc/try_accept_offered_item(mob/living/offerer, obj/offered_item)
-	if(get_active_held_item())
-		to_chat(src, span_warning("I need a free hand to take it!"))
-		return FALSE
-
-	accept_offered_item(offerer, offered_item)
-	return TRUE
-
-/mob/living/proc/accept_offered_item(mob/living/offerer, obj/offered_item)
-	transferItemToLoc(offered_item, src)
-	put_in_active_hand(offered_item)
-	to_chat(offerer, span_notice("[src] takes [offered_item] from my outstreched hand."))
-	visible_message(
-		span_warning("[src] takes [offered_item] from [offerer]'s outstreched hand!"),
-		span_notice("I take [offered_item] from [offerer]'s outstreched hand."),
-	)
-	SEND_SIGNAL(offered_item, COMSIG_OBJ_HANDED_OVER, src, offerer)
-	offerer.stop_offering_item()
-
+	purge_all_spellpoints(silent)

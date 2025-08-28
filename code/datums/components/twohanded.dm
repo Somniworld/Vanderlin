@@ -316,11 +316,10 @@
 /**
  * on_moved Triggers on item moved
  */
-/datum/component/two_handed/proc/on_moved(datum/source, atom/oldloc, dir)
+/datum/component/two_handed/proc/on_moved(datum/source, mob/user, dir)
 	SIGNAL_HANDLER
 
-	if(ismob(oldloc))
-		unwield(oldloc, show_message = FALSE, can_drop=FALSE)
+	unwield(user, show_message = FALSE, can_drop=FALSE)
 
 /**
  * on_inspect Triggers when the inspect href is called. inspect_list is the passed inspection list.
@@ -345,7 +344,7 @@
 		return COMPONENT_BLOCK_SWAP
 
 /**
- * modify_base_force Modifies base unwielded and wielded force of parent. Additive modifier first, then multiplicative.
+ * modify_force Modifies base unwielded and wielded force of parent. Additive modifier first, then multiplicative.
  */
 /datum/component/two_handed/proc/modify_base_force(additive_modifier, multiplicative_modifier)
 	var/obj/item/parent_item = parent

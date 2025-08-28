@@ -5,7 +5,6 @@
 	var/description = "This is a debug curse."
 	/// Trait given by this curse
 	var/trait
-
 /datum/curse/proc/on_life()
 	return
 /datum/curse/proc/on_death()
@@ -57,7 +56,6 @@
 			return TRUE
 
 	return FALSE
-
 //////////////////////
 /// SPECIAL CURSES ///
 //////////////////////
@@ -82,7 +80,7 @@
 
 /datum/curse/ravox
 	name = "Ravox's Curse"
-	description = "Violence disgusts me. I struggle to bring myself to wield any kind of weapon."
+	description = "Violence disgusts me. I cannot bring myself to wield any kind of weapon."
 	trait = TRAIT_RAVOX_CURSE
 
 /datum/curse/necra
@@ -102,7 +100,7 @@
 
 /datum/curse/eora
 	name = "Eora's Curse"
-	description = "I am unable to show any kind of affection or love, whether intimate or platonic."
+	description = "I am unable to show any kind of affection or love, whether carnal or platonic."
 	trait = TRAIT_EORA_CURSE
 
 //////////////////////
@@ -112,14 +110,7 @@
 	name = "Zizo's Curse"
 	description = "I can no longer distinguish reality from delusion."
 	trait = TRAIT_ZIZO_CURSE
-	/// Chance to call hallucination handle procs on life
-	var/hallucination_prob = 100
 	var/atom/movable/screen/fullscreen/maniac/hallucinations
-
-/datum/curse/zizo/minor
-	name = "Zizo's Minor Curse"
-	description = "I struggle to distinguish reality from delusion."
-	hallucination_prob = 10
 
 /datum/curse/schizophrenic //zizo curse but without the jumpscares and meta hallucinations
 	name = "Schizophrenic"
@@ -133,14 +124,13 @@
 
 /datum/curse/matthios
 	name = "Matthios' Curse"
-	description = "I hate the sight of wealth, and I struggle to do anything with mammons."
+	description = "I hate the sight of wealth, and I cannot have anything to do with mammons."
 	trait = TRAIT_MATTHIOS_CURSE
 
 /datum/curse/baotha
 	name = "Baotha's Curse"
-	description = "I'm in a constant state of ecstasy."
+	description = "I'm in a constant state of ecstacy."
 	trait = TRAIT_BAOTHA_CURSE
-
 //////////////////////
 /// ON GAIN / LOSS ///
 //////////////////////
@@ -158,7 +148,6 @@
 /datum/curse/zizo/on_gain(mob/living/carbon/human/owner)
 	. = ..()
 	hallucinations = owner.overlay_fullscreen("maniac", /atom/movable/screen/fullscreen/maniac)
-
 /datum/curse/zizo/on_loss(mob/living/carbon/human/owner)
 	. = ..()
 	hallucinations = null
@@ -176,7 +165,7 @@
 //////////////////////
 /datum/curse/pestra/on_life(mob/living/carbon/human/owner)
 	. = ..()
-	if(!MOBTIMER_FINISHED(owner, MT_CURSE_PESTRA, rand(120, 480) SECONDS)) //this isn't how mob timers work
+	if(!MOBTIMER_FINISHED(owner, MT_CURSE_PESTRA, rand(30, 60) SECONDS)) //this isn't how mob timers work
 		return
 
 	MOBTIMER_SET(owner, MT_CURSE_PESTRA)
@@ -197,7 +186,7 @@
 
 /datum/curse/baotha/on_life(mob/living/carbon/human/owner)
 	. = ..()
-	if(!MOBTIMER_FINISHED(owner, MT_CURSE_BAOTHA, rand(60, 420) SECONDS)) //this isn't how mob timers work
+	if(!MOBTIMER_FINISHED(owner, MT_CURSE_BAOTHA, rand(15, 60) SECONDS)) //this isn't how mob timers work
 		return
 
 	MOBTIMER_SET(owner, MT_CURSE_BAOTHA)
@@ -206,7 +195,7 @@
 
 /datum/curse/graggar/on_life(mob/living/carbon/human/owner)
 	. = ..()
-	if(!MOBTIMER_FINISHED(owner, MT_CURSE_GRAGGAR, rand(180, 480) SECONDS)) //this isn't how mob timers work
+	if(!MOBTIMER_FINISHED(owner, MT_CURSE_GRAGGAR, rand(15, 60) SECONDS)) //this isn't how mob timers work
 		return
 
 	MOBTIMER_SET(owner, MT_CURSE_GRAGGAR)
@@ -219,11 +208,10 @@
 // Currently calls maniac hallucinations
 /datum/curse/zizo/on_life(mob/living/carbon/human/owner)
 	. = ..()
-	if(prob(hallucination_prob))
-		handle_maniac_visions(owner, hallucinations)
-		handle_maniac_hallucinations(owner)
-		//handle_maniac_floors(owner)
-		handle_maniac_walls(owner)
+	handle_maniac_visions(owner, hallucinations)
+	handle_maniac_hallucinations(owner)
+	//handle_maniac_floors(owner)
+	handle_maniac_walls(owner)
 
 /datum/curse/schizophrenic/on_life(mob/living/carbon/human/owner)
 	. = ..()

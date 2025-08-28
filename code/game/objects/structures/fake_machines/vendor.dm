@@ -56,7 +56,7 @@
 /obj/structure/fake_machine/vendor/update_icon_state()
 	. = ..()
 	var/state = locked() && !obj_broken
-	icon_state = "streetvendor[state]"
+	icon_state = "streedvendor[state]"
 
 /obj/structure/fake_machine/vendor/update_overlays()
 	. = ..()
@@ -331,6 +331,3 @@
 				user.adjust_triumphs(1)
 				say("[user] HAS BEEN UPGRADED TO A NOBLE BEDCHAMBER!")
 				playsound(src, 'sound/misc/machinelong.ogg', 100, FALSE, -1)
-
-/obj/structure/fake_machine/vendor/merchant
-	lockids = list(ACCESS_MERCHANT)

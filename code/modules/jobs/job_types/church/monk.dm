@@ -4,6 +4,7 @@
 	You are a humble acolyte at the temple in Vanderlin, \
 	not yet a trained guardian or an ordained priest. \
 	But who else would keep the fires lit and the floors clean?"
+	flag = MONK
 	department_flag = CHURCHMEN
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	display_order = JDO_MONK
@@ -49,7 +50,7 @@
 			armor = /obj/item/clothing/shirt/robe/necra
 			H.cmode_music = 'sound/music/cmode/church/CombatGravekeeper.ogg'
 		if(/datum/patron/divine/eora)
-			mask = /obj/item/clothing/face/operavisage
+			head = /obj/item/clothing/head/padded/operavisage
 			neck = /obj/item/clothing/neck/psycross/silver/eora
 			shoes = /obj/item/clothing/shoes/sandals
 			armor = /obj/item/clothing/shirt/robe/eora
@@ -116,25 +117,25 @@
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 			H.adjust_skillrank(/datum/skill/labor/fishing, 2, TRUE)
 		if(/datum/patron/divine/ravox)
-			head = /obj/item/clothing/head/roguehood/colored/random
+			head = /obj/item/clothing/head/roguehood/random
 			neck = /obj/item/clothing/neck/psycross/silver/ravox
 			shoes = /obj/item/clothing/shoes/boots
-			armor = /obj/item/clothing/shirt/robe/colored/plain
+			armor = /obj/item/clothing/shirt/robe/plain
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatOutlander2.ogg'
 			H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
 		if(/datum/patron/divine/xylix)
-			head = /obj/item/clothing/head/roguehood/colored/random
+			head = /obj/item/clothing/head/roguehood/random
 			neck = /obj/item/clothing/neck/psycross/silver/xylix
 			shoes = /obj/item/clothing/shoes/boots
-			armor = /obj/item/clothing/shirt/robe/colored/plain
+			armor = /obj/item/clothing/shirt/robe/plain
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 			H.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
 			H.adjust_skillrank(/datum/skill/misc/music, 3, TRUE)
 		if(/datum/patron/divine/malum)
-			head = /obj/item/clothing/head/roguehood/colored/random
+			head = /obj/item/clothing/head/roguehood/random
 			neck = /obj/item/clothing/neck/psycross/silver/malum
 			shoes = /obj/item/clothing/shoes/boots
-			armor = /obj/item/clothing/shirt/robe/colored/plain
+			armor = /obj/item/clothing/shirt/robe/plain
 			backpack_contents += /obj/item/weapon/hammer/iron
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 			H.adjust_skillrank(/datum/skill/craft/blacksmithing, 1, TRUE)
@@ -142,10 +143,10 @@
 			H.adjust_skillrank(/datum/skill/craft/weaponsmithing, 1, TRUE)
 			ADD_TRAIT(H, TRAIT_MALUMFIRE, TRAIT_GENERIC)
 		else // Failsafe
-			head = /obj/item/clothing/head/roguehood/colored/random
+			head = /obj/item/clothing/head/roguehood/random
 			neck = /obj/item/clothing/neck/psycross/silver
 			shoes = /obj/item/clothing/shoes/boots
-			armor = /obj/item/clothing/shirt/robe/colored/plain
+			armor = /obj/item/clothing/shirt/robe/plain
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
 
 
@@ -168,8 +169,6 @@
 		H.grant_language(/datum/language/celestial)
 		to_chat(H, "<span class='info'>I can speak Celestial with ,c before my speech.</span>")
 
-	var/holder = H.patron.devotion_holder
-	if(holder)
-		var/datum/devotion/devotion = new holder()
-		devotion.make_acolyte()
-		devotion.grant_to(H)
+	var/datum/devotion/cleric_holder/C = new /datum/devotion/cleric_holder(H, H.patron)
+	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+	C.grant_spells(H)

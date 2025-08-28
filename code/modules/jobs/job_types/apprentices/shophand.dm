@@ -4,6 +4,7 @@
 	Tasked with handling customers, organizing shelves, and taking inventory, your work is mind-numbing and repetitive. \
 	Despite its mundanity however, it keeps a roof over your head and teaches you the art of mercantilism. \
 	With enough time, you will become more than a glorified clerk and open a business that rivals all others."
+	flag = SHOPHAND
 	department_flag = COMPANY
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	faction = "Station"
@@ -26,7 +27,7 @@
 	if(H.gender == FEMALE)
 		head = /obj/item/clothing/head/chaperon
 		pants = /obj/item/clothing/pants/tights
-		shirt = /obj/item/clothing/shirt/dress/gen/colored/blue
+		shirt = /obj/item/clothing/shirt/dress/gen/blue
 		shoes = /obj/item/clothing/shoes/simpleshoes
 		belt = /obj/item/storage/belt/leather
 		beltr = /obj/item/storage/belt/pouch/coins/poor
@@ -36,7 +37,7 @@
 	else
 		head = /obj/item/clothing/head/chaperon
 		pants = /obj/item/clothing/pants/tights
-		shirt = /obj/item/clothing/shirt/undershirt/colored/blue
+		shirt = /obj/item/clothing/shirt/undershirt/blue
 		shoes = /obj/item/clothing/shoes/simpleshoes
 		belt = /obj/item/storage/belt/leather
 		beltr = /obj/item/storage/belt/pouch/coins/poor

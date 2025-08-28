@@ -4,7 +4,6 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing
-	abstract_type = /obj/item/clothing/head/crown
 
 /obj/item/clothing/head/crown/circlet
 	name = "golden circlet"
@@ -36,8 +35,7 @@
 		SSroguemachine.crown = src
 
 /obj/item/clothing/head/crown/serpcrown/Destroy()
-	if(SSroguemachine.crown == src)
-		SSroguemachine.crown = null
+	SSroguemachine.crown = null
 	return ..()
 
 /obj/item/clothing/head/crown/serpcrown/proc/anti_stall()

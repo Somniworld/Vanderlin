@@ -6,6 +6,7 @@
 	You are as free as any bird in the sky, \
 	and you may revel in your debauchery for as long as your parents remain upon the throne: \
 	But someday you’ll have to grow up, and that will be the day your carelessness will cost you more than a few mammons."
+	flag = PRINCE
 	department_flag = APPRENTICES
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE )
 	faction = FACTION_TOWN
@@ -48,7 +49,7 @@
 /datum/outfit/job/heir/daring/pre_equip(mob/living/carbon/human/H)
 	..()
 	pants = /obj/item/clothing/pants/tights
-	shirt = /obj/item/clothing/shirt/undershirt/colored/guard
+	shirt = /obj/item/clothing/shirt/undershirt/guard
 	armor = /obj/item/clothing/armor/chainmail
 	shoes = /obj/item/clothing/shoes/nobleboot
 	belt = /obj/item/storage/belt/leather
@@ -101,7 +102,7 @@
 		head = /obj/item/clothing/head/hennin
 		shirt = /obj/item/clothing/shirt/dress/royal/princess
 		shoes = /obj/item/clothing/shoes/shortboots
-		pants = /obj/item/clothing/pants/tights/colored/random
+		pants = /obj/item/clothing/pants/tights/random
 		H.virginity = TRUE
 	H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)
@@ -147,7 +148,7 @@
 		head = /obj/item/clothing/head/hennin
 		shirt = /obj/item/clothing/shirt/dress/royal/princess
 		shoes = /obj/item/clothing/shoes/shortboots
-		pants = /obj/item/clothing/pants/tights/colored/random
+		pants = /obj/item/clothing/pants/tights/random
 		H.virginity = TRUE
 
 	H.adjust_skillrank(/datum/skill/combat/bows, 1, TRUE)

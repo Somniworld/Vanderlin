@@ -1,7 +1,8 @@
 /obj/effect/abstract/pollution
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "smoke-static"
-	SET_BASE_PIXEL(-32, -32)
+	pixel_x = -32
+	pixel_y = -32
 	anchored = TRUE
 	plane = GAME_PLANE_UPPER
 	layer = AREA_LAYER-1
@@ -174,8 +175,8 @@
 		if(!isopenturf(open_turf) || QDELING(open_turf) || QDELETED(open_turf.pollution))
 			continue
 		var/datum/pollution/cached_pollution = open_turf.pollution
-		for(var/datum/pollutant/type as anything in cached_pollution.pollutants)
-			if(initial(type.pollutant_flags) & POLLUTION_DO_NOT_SPREAD)
+		for(var/datum/pollutant/type in cached_pollution.pollutants)
+			if(type.pollutant_flags & POLLUTION_DO_NOT_SPREAD)
 				continue
 			if(!total_share_pollutants[type])
 				total_share_pollutants[type] = 0

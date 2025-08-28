@@ -23,7 +23,7 @@
 
 	sewrepair = TRUE
 	anvilrepair = null
-	smeltresult = /obj/item/fertilizer/ash
+	smeltresult = /obj/item/ash
 
 	grid_width = 64
 	grid_height = 64
@@ -32,10 +32,9 @@
 	var/fire_resist = T0C+100
 	var/blood_overlay_type = "suit"
 	var/togglename = null
-	abstract_type = /obj/item/clothing/shirt
 
-/obj/item/clothing/shirt/worn_overlays(mutable_appearance/standing, isinhands = FALSE, icon_file, dummy_block = FALSE)
-	. = ..()
+/obj/item/clothing/shirt/worn_overlays(isinhands = FALSE)
+	. = list()
 	if(!isinhands)
 		var/mob/living/carbon/human/M = loc
 		if(ishuman(M) && M.wear_pants)

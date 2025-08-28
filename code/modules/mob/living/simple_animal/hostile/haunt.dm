@@ -19,7 +19,7 @@
 	icon_dead = null
 	alpha = 200
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID
-	is_flying_animal = TRUE
+	movement_type = FLYING
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	pass_flags = PASSTABLE|PASSGRILLE
 	base_intents = list(/datum/intent/simple/slash)

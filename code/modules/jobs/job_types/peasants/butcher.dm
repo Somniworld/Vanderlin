@@ -4,11 +4,12 @@
 	some say youre a cheat while some claim you are a savant in the art of sausage making. \
 	Without your skilled hands and knifework most of the livestock around the town would be wasted. "
 	display_order = JDO_BUTCHER
+	flag = BEASTMASTER
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	department_flag = PEASANTS
 	faction = FACTION_TOWN
-	total_positions = 0
-	spawn_positions = 0
+	total_positions = 1
+	spawn_positions = 1
 	min_pq = -20
 	bypass_lastclass = TRUE
 
@@ -29,7 +30,7 @@
 	beltr= /obj/item/storage/meatbag
 	beltl= /obj/item/key/butcher
 	backl = /obj/item/storage/backpack/satchel
-	armor = /obj/item/clothing/armor/leather/vest/colored/butcher
+	armor = /obj/item/clothing/armor/leather/vest/butcher
 	shoes = /obj/item/clothing/shoes/boots/leather
 	backpack_contents = list(/obj/item/kitchen/spoon, /obj/item/reagent_containers/food/snacks/truffles, /obj/item/weapon/knife/hunting)
 
@@ -37,7 +38,7 @@
 		pants = /obj/item/clothing/pants/trou
 		wrists = /obj/item/clothing/wrists/bracers/leather
 	else
-		shirt = /obj/item/clothing/shirt/dress/gen/colored/random
+		shirt = /obj/item/clothing/shirt/dress/gen/random
 
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC) // Used to dismembering live stock, desensitized to it.
 

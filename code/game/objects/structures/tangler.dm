@@ -12,7 +12,7 @@
 	attacked_sound = 'sound/misc/woodhit.ogg'
 	buckle_lying = FALSE
 	buckle_prevents_pull = TRUE
-	var/list/eatablez = list(/obj/item/organ, /obj/item/reagent_containers/food/snacks/meat, /obj/item/fertilizer/compost, /obj/item/natural/poo)
+	var/list/eatablez = list(/obj/item/organ, /obj/item/reagent_containers/food/snacks/meat, /obj/item/compost, /obj/item/natural/poo)
 	var/last_eat
 	var/aggroed = TRUE
 	///Proximity monitor associated with this atom, needed for proximity checks.
@@ -130,12 +130,3 @@
 			qdel(AM)
 			return
 		aggroed = world.time
-
-/obj/structure/flora/grass/tangler/real/CanPass(atom/movable/mover, turf/target)
-	if(isliving(mover))
-		if(prob(50) && !HAS_TRAIT(mover, TRAIT_WEBWALK))
-			to_chat(mover, "<span class='danger'>I get stuck in \the [src] for a moment.</span>")
-			return FALSE
-	else if(istype(mover, /obj/projectile) && prob(30))
-		return ..()
-	return ..()

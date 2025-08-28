@@ -13,6 +13,7 @@
 	sharpness = IS_SHARP
 	possible_item_intents = list(SWORD_CUT, SWORD_THRUST)
 	can_parry = TRUE
+	wlength = 45
 	sellprice = 1
 	has_inspect_verb = TRUE
 	pickup_sound = "rustle" // Sound list define strings are in code/game/sound.dm
@@ -50,11 +51,11 @@
 
 /obj/item/weapon/pickup(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_RAVOX_CURSE) && prob(33))
+	if(HAS_TRAIT(user, TRAIT_RAVOX_CURSE))
 		var/mob/living/carbon/human/H = user
 		to_chat(H, span_warning("The idea repulses me!"))
 		H.cursed_freak_out()
-		H.Paralyze(4 SECONDS)
+		H.Paralyze(20)
 		return
 
 /obj/item/weapon/get_examine_string(mob/user, thats = FALSE)

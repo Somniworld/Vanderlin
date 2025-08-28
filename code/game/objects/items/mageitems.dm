@@ -365,11 +365,9 @@
 	user.hud_used?.plane_masters_update()
 	active = FALSE
 
-/obj/item/sendingstonesummoner
-	name = "sending stone summoner"
-
-/obj/item/sendingstonesummoner/OnCrafted(dirin, mob/user)
+/obj/item/sendingstonesummoner/Initialize()
 	. = ..()
+	var/mob/living/user = usr
 	var/obj/item/natural/stone/sending/item1 = new /obj/item/natural/stone/sending
 	var/obj/item/natural/stone/sending/item2 = new /obj/item/natural/stone/sending
 	item1.paired_with = item2
@@ -380,7 +378,7 @@
 	item2.color = "#d8aeff"
 	user.put_in_hands(item1, FALSE)
 	user.put_in_hands(item2, FALSE)
-	qdel(src)
+	return INITIALIZE_HINT_QDEL
 
 /obj/item/natural/stone/sending
 	name = "sending stone"

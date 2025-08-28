@@ -9,7 +9,6 @@
 	pickprob = 30
 	min_pq = 0
 	cmode_music = 'sound/music/cmode/towner/CombatTowner2.ogg'
-	is_recognized = TRUE
 
 
 /datum/outfit/job/adventurer/merchant/pre_equip(mob/living/carbon/human/H)
@@ -32,12 +31,12 @@
 	neck = /obj/item/storage/belt/pouch/coins/rich
 	ring = /obj/item/clothing/ring/silver
 	if(H.gender == FEMALE)
-		armor = /obj/item/clothing/shirt/dress/gen/colored/green
+		armor = /obj/item/clothing/shirt/dress/gen/green
 		head = /obj/item/clothing/head/hatblu
-		cloak = /obj/item/clothing/cloak/raincloak/colored/purple
+		cloak = /obj/item/clothing/cloak/raincloak/purple
 	if(H.gender == MALE)
-		pants = /obj/item/clothing/pants/tights/colored/green
-		shirt = /obj/item/clothing/shirt/undershirt/colored/green
+		pants = /obj/item/clothing/pants/tights/green
+		shirt = /obj/item/clothing/shirt/undershirt/green
 		cloak = /obj/item/clothing/cloak/half
 		head = /obj/item/clothing/head/fancyhat
 

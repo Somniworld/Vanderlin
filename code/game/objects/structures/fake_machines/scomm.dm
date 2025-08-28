@@ -7,7 +7,7 @@
 	density = FALSE
 	blade_dulling = DULLING_BASH
 	max_integrity = 0
-	SET_BASE_PIXEL(0, 32)
+	pixel_y = 32
 	anchored = TRUE
 	var/next_decree = 0
 	var/listening = TRUE
@@ -23,10 +23,12 @@
 	return ..()
 
 /obj/structure/fake_machine/scomm/r
-	SET_BASE_PIXEL(32, 0)
+	pixel_y = 0
+	pixel_x = 32
 
 /obj/structure/fake_machine/scomm/l
-	SET_BASE_PIXEL(-32, 0)
+	pixel_y = 0
+	pixel_x = -32
 
 /obj/structure/fake_machine/scomm/examine(mob/user)
 	. = ..()

@@ -1,6 +1,5 @@
 /datum/objective/hoard_mammons
 	name = "Hoard Mammons"
-	triumph_count = 2
 	var/target_mammons = 400
 	var/current_amount = 0
 	var/check_cooldown = 20 SECONDS
@@ -32,7 +31,7 @@
 		to_chat(user, span_greentext("You have accumulated [mammon_count] mammons, completing Matthios' objective!"))
 		user.adjust_triumphs(triumph_count)
 		completed = TRUE
-		adjust_storyteller_influence(MATTHIOS, 15)
+		adjust_storyteller_influence("Matthios", 15)
 		escalate_objective()
 		STOP_PROCESSING(SSprocessing, src)
 

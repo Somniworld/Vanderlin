@@ -72,12 +72,13 @@
 	held_item.forceMove(get_turf(src))
 	held_item = null
 
-/mob/living/simple_animal/pet/cat/Crossed(atom/movable/AM) // Gato Basado - makes it leave when people step too close
+/mob/living/simple_animal/pet/cat/Crossed(mob/living/L) // Gato Basado - makes it leave when people step too close
 	. = ..()
-	if(isliving(AM))
+	if(L)
 		if(health > 1)
 			icon_state = "[icon_living]"
 			set_resting(FALSE, instant = TRUE)
+			// update_mobility()
 			if(isturf(loc))
 				dir = pick(GLOB.cardinals)
 				step(src, dir)
@@ -128,10 +129,6 @@
 	icon_living = "cat"
 	icon_dead = "cat_dead"
 
-/mob/living/simple_animal/pet/cat/black/Initialize()
-	. = ..()
-	ai_controller?.blackboard[BB_CAT_RACISM] = FALSE
-
 /mob/living/simple_animal/pet/cat/original
 	name = "Batsy"
 	desc = ""
@@ -179,9 +176,20 @@
 /mob/living/simple_animal/pet/cat/attack_hand(mob/living/carbon/human/M)
 	. = ..()
 	if(stat != DEAD)
+		// Handle vampire reaction
+		if(M.mind && M.mind.has_antag_datum(/datum/antagonist/vampire))
+			visible_message("<span class='notice'>\The [src] hisses at [M] and recoils in disgust.</span>")
+			icon_state = "[icon_living]"
+			set_resting(FALSE)
+			playsound(get_turf(src), 'sound/vo/mobs/cat/cathiss.ogg', 80, TRUE, -1)
+			dir = pick(GLOB.alldirs)
+			step(src, dir)
+			personal_space()
+			return
+
 		// Handle racist reaction if enabled
 		if(ai_controller.blackboard[BB_CAT_RACISM])
-			if((isdarkelf(M)) || ishalforc(M) || istiefling(M) || (M.mind && M.mind.has_antag_datum(/datum/antagonist/vampire)))
+			if((isdarkelf(M)) || ishalforc(M) || istiefling(M))
 				visible_message("<span class='notice'>\The [src] hisses at [M] and recoils in disgust.</span>")
 				icon_state = "[icon_living]"
 				set_resting(FALSE)

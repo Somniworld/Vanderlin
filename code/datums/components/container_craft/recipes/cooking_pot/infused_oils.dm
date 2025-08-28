@@ -4,9 +4,8 @@
 	category = "Herbal Oils"
 	crafting_time = 25 SECONDS
 	reagent_requirements = list(
-		/datum/reagent/consumable/ethanol = 30
+		/datum/reagent/consumable/ethanol/ale = 30
 	)
-	subtype_reagents_allowed = TRUE
 	craft_verb = "infusing "
 	required_chem_temp = 300 // Low heat for oil infusion
 	pollute_amount = 100

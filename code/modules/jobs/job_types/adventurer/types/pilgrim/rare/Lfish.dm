@@ -13,13 +13,12 @@
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	apprentice_name = "Fisher Apprentice"
 	cmode_music = 'sound/music/cmode/towner/CombatTowner.ogg'
-	is_recognized = TRUE
 
 /datum/outfit/job/adventurer/fishermaster/pre_equip(mob/living/carbon/human/H)
 	..()
 	if(H.gender == MALE)
 		pants = /obj/item/clothing/pants/trou
-		shirt = /obj/item/clothing/shirt/shortshirt/colored/random
+		shirt = /obj/item/clothing/shirt/shortshirt/random
 		shoes = /obj/item/clothing/shoes/boots/leather
 		neck = /obj/item/storage/belt/pouch/coins/mid
 		head = /obj/item/clothing/head/fisherhat
@@ -49,7 +48,7 @@
 	else
 		pants = /obj/item/clothing/pants/trou
 		shoes = /obj/item/clothing/shoes/boots/leather
-		shirt = /obj/item/clothing/shirt/shortshirt/colored/random
+		shirt = /obj/item/clothing/shirt/shortshirt/random
 		neck = /obj/item/storage/belt/pouch/coins/mid
 		head = /obj/item/clothing/head/fisherhat
 		backr = /obj/item/storage/backpack/satchel

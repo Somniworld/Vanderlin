@@ -13,7 +13,6 @@
 	pickprob = 15
 	category_tags = list(CTAG_PILGRIM)
 	cmode_music = 'sound/music/cmode/towner/CombatTowner2.ogg'
-	is_recognized = TRUE
 
 /datum/outfit/job/adventurer/masterblacksmith/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -71,5 +70,5 @@
 		shirt = /obj/item/clothing/shirt/shortshirt
 	else
 		shoes = /obj/item/clothing/shoes/shortboots
-		armor = /obj/item/clothing/shirt/dress/gen/colored/random
+		armor = /obj/item/clothing/shirt/dress/gen/random
 		shirt = /obj/item/clothing/shirt/undershirt

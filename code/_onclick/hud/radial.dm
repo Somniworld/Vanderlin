@@ -32,9 +32,11 @@ GLOBAL_LIST_EMPTY(radial_menus)
 
 
 /atom/movable/screen/radial/proc/set_parent(new_value)
-	UnregisterSignal(parent, COMSIG_PARENT_QDELETING)
+	if(parent)
+		UnregisterSignal(parent, COMSIG_PARENT_QDELETING)
 	parent = new_value
-	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(handle_parent_del))
+	if(parent)
+		RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(handle_parent_del))
 
 /atom/movable/screen/radial/proc/handle_parent_del()
 	SIGNAL_HANDLER
@@ -380,7 +382,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 
 /datum/radial_menu/proc/wait(atom/user, atom/anchor, require_near = FALSE)
 	while (current_user && !finished && !selected_choice)
-		if(require_near && !in_range_loose(anchor, user))
+		if(require_near && !in_range(anchor, user))
 			return
 		if(custom_check_callback && next_check < world.time)
 			if(!custom_check_callback.Invoke())
@@ -450,7 +452,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	var/answer = menu.selected_choice
 	menu.remove_menu()
 	GLOB.radial_menus -= uniqueid
-	if(require_near && !in_range_loose(anchor, user))
+	if(require_near && !in_range(anchor, user))
 		return
 	if(istype(custom_check))
 		if(!custom_check.Invoke())
